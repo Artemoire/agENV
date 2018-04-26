@@ -68,16 +68,14 @@ atlassian-ide-plugin.xml
 ######################
  
 *.pydevproject
-.project
 .metadata
 *.tmp
 *.bak
 *.swp
 *~.nib
 local.properties
-.classpath
-.settings/
 .loadpath
+RemoteSystemsTempFiles/
 
 # External tool builders
 .externalToolBuilders/
