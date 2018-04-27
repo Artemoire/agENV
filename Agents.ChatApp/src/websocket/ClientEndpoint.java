@@ -1,5 +1,7 @@
 package websocket;
 
+import java.io.IOException;
+
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.enterprise.concurrent.ManagedExecutorService;
@@ -23,8 +25,9 @@ public class ClientEndpoint {
 	}
 	
 	@OnOpen
-	public void open(Session session) {
-		log.info("Open session:" + session.getId());		 
+	public void open(Session session) throws IOException {
+		log.info("Open session:" + session.getId());		
+		session.getBasicRemote().sendText("Welcome to server!");
 	}
 	
 	@OnClose
