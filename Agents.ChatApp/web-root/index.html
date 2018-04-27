@@ -1,0 +1,35 @@
+<script>
+var wsUri = "ws://localhost:8080/Agents.ChatApp/ws";
+
+function testWebSocket() {
+
+	websocket = new WebSocket(wsUri);
+	websocket.onopen = function(evt) { onOpen(evt) };
+	websocket.onclose = function(evt) { onClose(evt) };
+	websocket.onmessage = function(evt) { onMessage(evt) };
+	websocket.onerror = function(evt) { onError(evt) };
+}
+
+function onOpen(evt) {
+	console.log("CONNECTED");
+	doSend("WebSocket rocks");
+}
+function onClose(evt) {
+	console.log("DISCONNECTED");
+}
+function onMessage(evt) {
+	console.log('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
+	websocket.close();
+}
+
+function onError(evt) {
+	console.log('<span style="color: red;">ERROR:</span> ' + evt.data);
+}
+function doSend(message) {
+	console.log("SENT: " + message);
+	websocket.send(message);
+}
+
+testWebSocket();
+
+</script>
