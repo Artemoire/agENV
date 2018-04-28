@@ -68,6 +68,8 @@ atlassian-ide-plugin.xml
 # Eclipse
 ######################
  
+.project
+.classpath
 *.pydevproject
 .metadata
 *.tmp
