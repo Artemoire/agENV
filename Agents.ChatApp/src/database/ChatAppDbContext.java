@@ -1,10 +1,15 @@
 package database;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.Stateful;
+
+import org.bson.Document;
 
 import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
+@Stateful
 public class ChatAppDbContext {
 
 	private MongoDatabase context;
@@ -20,6 +25,10 @@ public class ChatAppDbContext {
 
 	public void setContext(MongoDatabase context) {
 		this.context = context;
+	}
+	
+	public MongoCollection<Document> getMessages() {
+		return context.getCollection("messages");
 	}
 	
 }
