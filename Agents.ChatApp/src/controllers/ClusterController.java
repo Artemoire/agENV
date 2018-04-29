@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 import models.Host;
 import services.ClusterService;
 
-@Path("/cluster")
+@Path(chatapp.RestApi.Contexts.CLUSTER)
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @Stateless

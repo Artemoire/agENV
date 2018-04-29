@@ -11,7 +11,7 @@ import javax.ws.rs.core.MediaType;
 import models.Message;
 import services.MessageService;
 
-@Path("/message")
+@Path(chatapp.RestApi.Contexts.MESSAGE)
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @Stateless
