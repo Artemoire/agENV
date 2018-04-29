@@ -9,6 +9,7 @@
 	<name>UserApp</name>
 	<description>UserApp</description>
 	<build>
+		<finalName>UserApp</finalName>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
 			<plugin>

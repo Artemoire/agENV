@@ -2,6 +2,8 @@ package controller;
 
 import java.util.List;
 
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -13,20 +15,20 @@ import models.User;
 import services.UserService;
 
 @Path("/users")
-
-
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+@Stateless
 public class UserController {
 	
+	@EJB
 	UserService userService;
 	
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
 	List<User> getAllUsers() {
 		return userService.getAll();
 	}
 	
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
 	void registerUser(User user) {
 		 userService.register(user);
 	}

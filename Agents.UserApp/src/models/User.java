@@ -7,7 +7,7 @@ public class User {
 	private String username;
 	private String password;
 	private Host host;
-	
+
 	public User() {
 		
 	}
