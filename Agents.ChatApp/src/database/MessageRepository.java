@@ -18,7 +18,7 @@ public class MessageRepository {
 	}
 
 	private Message convert(Document document) {
-		return new Message(document.getString("receiver"), document.getString("sender"), document.getString("content"),
+		return new Message(document.getObjectId("_id").toHexString(), document.getString("receiver"), document.getString("sender"), document.getString("content"),
 				document.getDate("date"));
 	}
 

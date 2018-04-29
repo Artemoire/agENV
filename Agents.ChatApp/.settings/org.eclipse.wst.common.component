@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="Agents.ChatApp-0.0.1-SNAPSHOT">
+    <wb-module deploy-name="ChatApp">
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
         <wb-resource deploy-path="/" source-path="/web-root" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="context-root" value="Agents.ChatApp"/>
         <property name="java-output-path" value="/Agents.ChatApp/build/classes"/>
+        <property name="context-root" value="ChatApp"/>
     </wb-module>
 </project-modules>

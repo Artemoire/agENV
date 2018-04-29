@@ -9,6 +9,7 @@
 	<name>ChatApp</name>
 	<description>ChatApp</description>
 	<build>
+		<finalName>ChatApp</finalName>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
 			<plugin>

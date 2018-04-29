@@ -1,11 +1,10 @@
 package services;
 
-import java.util.List;
-
 import models.Message;
 
 public interface MessageService {
-	
-	List<Message> getAll();
+
+	void forwarded(Message message);
+	void send(Message message);
 	
 }
