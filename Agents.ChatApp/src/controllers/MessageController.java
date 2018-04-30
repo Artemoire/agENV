@@ -8,10 +8,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import chatapp.ChatApp;
 import models.Message;
 import services.MessageService;
 
-@Path(chatapp.RestApi.Contexts.MESSAGE)
+@Path(ChatApp.Rest.Api.MESSAGE)
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @Stateless

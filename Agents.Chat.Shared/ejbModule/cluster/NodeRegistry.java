@@ -10,9 +10,6 @@ import models.Host;
 
 @Singleton
 public class NodeRegistry {
-
-	@EJB
-	private MasterHost master;
 	
 	// key is host alias
 	private HashMap<String, Host> nodes;
