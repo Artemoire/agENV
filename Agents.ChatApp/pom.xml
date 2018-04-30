@@ -29,7 +29,12 @@
 			</plugin>
 		</plugins>
 	</build>
-	<dependencies>
+	<dependencies>		
+		<dependency>
+			<groupId>com.chat.agents</groupId>
+			<artifactId>Agents.Chat.Shared</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongodb-driver</artifactId>

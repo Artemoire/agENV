@@ -1,9 +1,11 @@
-package chatapp;
+package app;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-@ApplicationPath(RestApi.RESTENDPOINT)
+import chatapp.ChatApp;
+
+@ApplicationPath(ChatApp.Rest.BASE)
 public class App extends Application {
 
 }

@@ -10,9 +10,9 @@ public interface GroupService {
 	
 	void createGroup(Long groupAdminId, String name);
 	
-	void deleteGroup(Long groupAdminId, String groupName);
+	void deleteGroup(Long groupAdminId, Long groupId);
 	
-	void addNewUser(Long groupAdminId, Long newUserId);
+	void addNewUser(Long groupAdminId, Long newUserId, Long groupId);
 	
-	void deleteUser(Long groupAdminId, Long newUserId);
+	void deleteUser(Long groupAdminId, Long newUserId, Long groupId);
 }

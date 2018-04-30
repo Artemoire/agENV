@@ -9,11 +9,11 @@ import javax.ejb.EJB;
 import database.GroupRepository;
 import models.Group;
 
-public class GroupServiceImpl implements GroupService{
+public class GroupServiceImpl implements GroupService {
 
 	@EJB
 	GroupRepository groupRepository;
-	
+
 	@Override
 	public List<Group> getAllGroups() {
 		List<Group> target = new ArrayList<>();
@@ -23,25 +23,25 @@ public class GroupServiceImpl implements GroupService{
 	}
 
 	@Override
-	public void createGroup(Long groupAdminId, String name){
-		groupRepository.createGroup(groupAdminId,name);
-	}
-	
-	@Override
-	public void deleteGroup(Long groupAdminId, String groupName){
-		groupRepository.deleteGroup(groupAdminId,groupName);
+	public void createGroup(Long groupAdminId, String name) {
+		groupRepository.createGroup(groupAdminId, name);
 	}
 
 	@Override
-	public void addNewUser(Long groupAdminId, Long newUserId) {
-		groupRepository.addNewUser(groupAdminId, newUserId);
-		
+	public void deleteGroup(Long groupAdminId, Long groupId) {
+		groupRepository.deleteGroup(groupAdminId, groupId);
 	}
 
 	@Override
-	public void deleteUser(Long groupAdminId, Long newUserId) {
-		groupRepository.deleteUser(groupAdminId, newUserId);
-		
+	public void addNewUser(Long groupAdminId, Long newUserId, Long groupId) {
+		groupRepository.addNewUser(groupAdminId, newUserId, groupId);
+
 	}
-	
+
+	@Override
+	public void deleteUser(Long groupAdminId, Long newUserId, Long groupId) {
+		groupRepository.deleteUser(groupAdminId, newUserId, groupId);
+
+	}
+
 }

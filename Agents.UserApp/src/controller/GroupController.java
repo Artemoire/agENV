@@ -28,22 +28,22 @@ public class GroupController {
 	}
 	
 	@DELETE
-	@Path("/{groupAdminId}/{groupName}")
-	public void deleteGroup(@PathParam("groupAdminId") Long groupAdminId, @PathParam("groupName") String groupName) {
-		groupService.deleteGroup(groupAdminId, groupName);
+	@Path("/{groupAdminId}/{groupId}")
+	public void deleteGroup(@PathParam("groupAdminId") Long groupAdminId, @PathParam("groupId") Long groupId) {
+		groupService.deleteGroup(groupAdminId, groupId);
 	}
 	
 	@POST
-	@Path("/addNewUsersFromGroup/{groupAdminId}/{newUserId}")
-	public void addNewUser(@PathParam("groupAdminId") Long groupAdminId, @PathParam("newUserId") Long newUserId) {
-		groupService.addNewUser(groupAdminId, newUserId);
+	@Path("/addNewUsersToGroup/{groupAdminId}/{newUserId}/{groupId}")
+	public void addNewUser(@PathParam("groupAdminId") Long groupAdminId, @PathParam("newUserId") Long newUserId, @PathParam("groupId") Long groupId) {
+		groupService.addNewUser(groupAdminId, newUserId, groupId);
 
 	}
 
 	@DELETE
-	@Path("/deleteUsersFromGroup/{groupAdminId}/{newUserId}")
-	public void deleteUser(@PathParam("groupAdminId") Long groupAdminId, @PathParam("newUserId") Long newUserId) {
-		groupService.deleteUser(groupAdminId, newUserId);
+	@Path("/deleteUsersFromGroup/{groupAdminId}/{newUserId}/{groupId}")
+	public void deleteUser(@PathParam("groupAdminId") Long groupAdminId, @PathParam("newUserId") Long newUserId, @PathParam("groupId") Long groupId) {
+		groupService.deleteUser(groupAdminId, newUserId, groupId);
 
 	}
 }

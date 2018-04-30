@@ -11,7 +11,6 @@ import org.bson.Document;
 import com.mongodb.BasicDBObject;
 
 import models.Group;
-import models.User;
 
 @Stateless
 public class GroupRepository {
@@ -57,45 +56,44 @@ public class GroupRepository {
 		group.setUsersIds(ids);
 		saveGroup(group);
 	}
-	
-	public Group getGroupByAdminId(Long groupAdminId) {
+
+	public Group getGroupById(Long groupId) {
 		BasicDBObject whereQuery = new BasicDBObject();
-		whereQuery.put("groupAdminId", groupAdminId.toString());
+		whereQuery.put("groupId", groupId);
 		return convert(dbContext.getGroups().find(whereQuery).first());
 	}
-	
-	public void deleteGroup(Long groupAdminId,String groupName) {
-		Group group = getGroupByAdminId(groupAdminId);
+
+	public void deleteGroup(Long groupAdminId, Long groupId) {
+		Group group = getGroupById(groupId);
 		deleteGroup(group);
-		
 	}
 
-	public void addNewUser(Long groupAdminId, Long newUserId) {
-		Group group = getGroupByAdminId(groupAdminId);
+	public void addNewUser(Long groupAdminId, Long newUserId, Long groupId) {
+		Group group = getGroupById(groupId);
 		group.getUsersIds().add(newUserId);
 		updateGroups(group, newUserId);
 	}
-	
-	public void deleteUser(Long groupAdminId, Long newUserId) {
-		Group group = getGroupByAdminId(groupAdminId);
+
+	public void deleteUser(Long groupAdminId, Long newUserId, Long groupId) {
+		Group group = getGroupById(groupId);
 		group.getUsersIds().remove(newUserId);
 		updateGroups(group, newUserId);
 	}
-	
+
 	public void updateGroups(Group group, Long newUserId) {
 		BasicDBObject newDocument = new BasicDBObject();
 		newDocument.append("$set", new BasicDBObject().append("usersIds", group.getUsersIds()));
-		
+
 		BasicDBObject searchQuery = new BasicDBObject().append("id", group.getId());
 
 		this.dbContext.getGroups().updateOne(searchQuery, newDocument);
 
 	}
-	
+
 	public void saveGroup(Group group) {
 		this.dbContext.getGroups().insertOne(reverseConvert(group));
 	}
-	
+
 	public void deleteGroup(Group group) {
 		this.dbContext.getGroups().deleteOne(reverseConvert(group));
 	}

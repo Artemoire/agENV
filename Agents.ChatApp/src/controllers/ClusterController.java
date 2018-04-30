@@ -10,10 +10,11 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import chatapp.ChatApp;
 import models.Host;
 import services.ClusterService;
 
-@Path(chatapp.RestApi.Contexts.CLUSTER)
+@Path(ChatApp.Rest.Api.CLUSTER)
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @Stateless
