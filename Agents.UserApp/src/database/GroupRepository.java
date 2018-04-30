@@ -4,11 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 
 import org.bson.Document;
 
-import models.Group;
+import com.mongodb.BasicDBObject;
 
+import models.Group;
+import models.User;
+
+@Stateless
 public class GroupRepository {
 
 	@EJB
@@ -52,8 +57,46 @@ public class GroupRepository {
 		group.setUsersIds(ids);
 		saveGroup(group);
 	}
+	
+	public Group getGroupByAdminId(Long groupAdminId) {
+		BasicDBObject whereQuery = new BasicDBObject();
+		whereQuery.put("groupAdminId", groupAdminId.toString());
+		return convert(dbContext.getGroups().find(whereQuery).first());
+	}
+	
+	public void deleteGroup(Long groupAdminId,String groupName) {
+		Group group = getGroupByAdminId(groupAdminId);
+		deleteGroup(group);
+		
+	}
 
+	public void addNewUser(Long groupAdminId, Long newUserId) {
+		Group group = getGroupByAdminId(groupAdminId);
+		group.getUsersIds().add(newUserId);
+		updateGroups(group, newUserId);
+	}
+	
+	public void deleteUser(Long groupAdminId, Long newUserId) {
+		Group group = getGroupByAdminId(groupAdminId);
+		group.getUsersIds().remove(newUserId);
+		updateGroups(group, newUserId);
+	}
+	
+	public void updateGroups(Group group, Long newUserId) {
+		BasicDBObject newDocument = new BasicDBObject();
+		newDocument.append("$set", new BasicDBObject().append("usersIds", group.getUsersIds()));
+		
+		BasicDBObject searchQuery = new BasicDBObject().append("id", group.getId());
+
+		this.dbContext.getGroups().updateOne(searchQuery, newDocument);
+
+	}
+	
 	public void saveGroup(Group group) {
 		this.dbContext.getGroups().insertOne(reverseConvert(group));
+	}
+	
+	public void deleteGroup(Group group) {
+		this.dbContext.getGroups().deleteOne(reverseConvert(group));
 	}
 }

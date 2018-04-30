@@ -26,7 +26,22 @@ public class GroupServiceImpl implements GroupService{
 	public void createGroup(Long groupAdminId, String name){
 		groupRepository.createGroup(groupAdminId,name);
 	}
-
 	
+	@Override
+	public void deleteGroup(Long groupAdminId, String groupName){
+		groupRepository.deleteGroup(groupAdminId,groupName);
+	}
+
+	@Override
+	public void addNewUser(Long groupAdminId, Long newUserId) {
+		groupRepository.addNewUser(groupAdminId, newUserId);
+		
+	}
+
+	@Override
+	public void deleteUser(Long groupAdminId, Long newUserId) {
+		groupRepository.deleteUser(groupAdminId, newUserId);
+		
+	}
 	
 }
