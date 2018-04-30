@@ -1,7 +1,11 @@
 package models;
 
-public class User {
+import java.util.List;
 
+public class User {
+	
+	private Long id;
+	private List<Long> friends;
 	private String name;
 	private String surname;
 	private String username;
@@ -11,15 +15,16 @@ public class User {
 	public User() {
 		
 	}
-
-	public User(String name, String surname, String username, Host host) {
+	
+	public User(Long id, List<Long> friends, String name, String surname, String username, Host host) {
 		super();
+		this.id = id;
+		this.friends = friends;
 		this.name = name;
 		this.surname = surname;
 		this.username = username;
 		this.host = host;
 	}
-
 
 
 	public String getName() {
@@ -73,8 +78,23 @@ public class User {
 	public void setHost(Host host) {
 		this.host = host;
 	}
+	
 
+	public List<Long> getFriends() {
+		return friends;
+	}
 
+	public void setFriends(List<Long> friends) {
+		this.friends = friends;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	@Override
 	public String toString() {

@@ -1,7 +1,6 @@
 package database;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.Stateful;
 
 import org.bson.Document;
 
@@ -9,8 +8,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-@Stateful
-public class UserAppDbContext {
+public class GroupAppDbContext {
 
 	private MongoDatabase context;
 
@@ -27,8 +25,7 @@ public class UserAppDbContext {
 		this.context = context;
 	}
 
-	public MongoCollection<Document> getUsers() {
-		return this.context.getCollection("users");
+	public MongoCollection<Document> getGroups() {
+		return this.context.getCollection("groups");
 	}
-
 }

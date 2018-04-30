@@ -5,20 +5,24 @@ import java.util.List;
 public class Group {
 	
 	private Long id;
+	private Long groupAdminId;
 	private String name;
-	private List<User> users;
+	private List<Long> usersIds;
 	
 	public Group() {
 		
 	}
-	
-	public Group(Long id, String name, List<User> users) {
+
+	public Group(Long id, Long groupAdminId, String name, List<Long> usersIds) {
 		super();
 		this.id = id;
+		this.groupAdminId = groupAdminId;
 		this.name = name;
-		this.users = users;
+		this.usersIds = usersIds;
 	}
-	
+
+
+
 	public Long getId() {
 		return id;
 	}
@@ -34,21 +38,24 @@ public class Group {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public List<User> getUsers() {
-		return users;
-	}
-	
-	public void setUsers(List<User> users) {
-		this.users = users;
+
+
+	public List<Long> getUsersIds() {
+		return usersIds;
 	}
 
-	@Override
-	public String toString() {
-		return "Group [id=" + id + ", name=" + name + ", users=" + users + "]";
+
+	public void setUsersIds(List<Long> usersIds) {
+		this.usersIds = usersIds;
 	}
-	
-	
+
+	public Long getGroupAdminId() {
+		return groupAdminId;
+	}
+
+	public void setGroupAdminId(Long groupAdminId) {
+		this.groupAdminId = groupAdminId;
+	}
 	
 	
 }

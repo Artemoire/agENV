@@ -36,4 +36,24 @@ public class UserServiceImpl implements UserService {
 
 	}
 
+	@Override
+	public User login(String username, String password) {
+		User userCheck = userRepository.getUserByUsername(username);
+		if (userCheck != null && userCheck.getPassword().equals(password)) {
+			return userCheck;
+		}
+		return null;
+	}
+
+	@Override
+	public void addFriend(Long friendId, Long userId) {
+		userRepository.addFriend(friendId, userId);
+	}
+
+	@Override
+	public void deleteFriend(Long friendId, Long userId) {
+		userRepository.deleteFriend(userId, friendId);
+
+	}
+
 }
