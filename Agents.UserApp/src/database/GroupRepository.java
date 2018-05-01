@@ -59,7 +59,7 @@ public class GroupRepository {
 
 	public Group getGroupById(Long groupId) {
 		BasicDBObject whereQuery = new BasicDBObject();
-		whereQuery.put("groupId", groupId);
+		whereQuery.put("id", groupId);
 		return convert(dbContext.getGroups().find(whereQuery).first());
 	}
 

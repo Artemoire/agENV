@@ -5,10 +5,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 
 import database.GroupRepository;
 import models.Group;
-
+@Stateless
 public class GroupServiceImpl implements GroupService {
 
 	@EJB
