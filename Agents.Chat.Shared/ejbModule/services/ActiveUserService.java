@@ -14,7 +14,7 @@ public class ActiveUserService {
 	private List<User> activeUsers;
 
 	@PostConstruct
-	public void addActiveUsers() {
+	private void init() {
 		activeUsers = new ArrayList<>();
 	}
 

@@ -16,7 +16,7 @@ public class GroupServiceImpl implements GroupService {
 	GroupRepository groupRepository;
 
 	@Override
-	public List<Group> getAllGroups() {
+	public List<Group> getAllGroups(String userId) {
 		List<Group> target = new ArrayList<>();
 		Iterator<Group> source = groupRepository.getAllGroups().iterator();
 		source.forEachRemaining(target::add);
@@ -24,23 +24,23 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public void createGroup(Long groupAdminId, String name) {
+	public void createGroup(String groupAdminId, String name) {
 		groupRepository.createGroup(groupAdminId, name);
 	}
 
 	@Override
-	public void deleteGroup(Long groupAdminId, Long groupId) {
+	public void deleteGroup(String groupAdminId, String groupId) {
 		groupRepository.deleteGroup(groupAdminId, groupId);
 	}
 
 	@Override
-	public void addNewUser(Long groupAdminId, Long newUserId, Long groupId) {
+	public void addNewUser(String groupAdminId, String newUserId, String groupId) {
 		groupRepository.addNewUser(groupAdminId, newUserId, groupId);
 
 	}
 
 	@Override
-	public void deleteUser(Long groupAdminId, Long newUserId, Long groupId) {
+	public void deleteUser(String groupAdminId, String newUserId, String groupId) {
 		groupRepository.deleteUser(groupAdminId, newUserId, groupId);
 
 	}

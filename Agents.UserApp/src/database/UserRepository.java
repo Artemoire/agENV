@@ -6,6 +6,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import com.mongodb.BasicDBObject;
 
@@ -35,7 +36,7 @@ public class UserRepository {
 		return convert(dbContext.getUsers().find(whereQuery).first());
 	}
 
-	public void addFriend(Long friendId, Long userId) {
+	public void addFriend(String friendId, String userId) {
 		User user = getUserById(userId);
 		User friend = getUserById(friendId);
 		user.getFriends().add(friendId);
@@ -44,7 +45,7 @@ public class UserRepository {
 		updateFriends(friend, userId);
 	}
 
-	public void deleteFriend(Long userId, Long friendId) {
+	public void deleteFriend(String userId, String friendId) {
 		User user = getUserById(userId);
 		User friend = getUserById(friendId);
 		user.getFriends().remove(friendId);
@@ -54,25 +55,27 @@ public class UserRepository {
 
 	}
 
-	public void updateFriends(User user, Long friendId) {
+	public void updateFriends(User user, String friendId) {
 		BasicDBObject newDocument = new BasicDBObject();
 		newDocument.append("$set", new BasicDBObject().append("friends", user.getFriends()));
 
-		BasicDBObject searchQuery = new BasicDBObject().append("id", user.getId());
+		BasicDBObject searchQuery = new BasicDBObject().append("_id", new ObjectId(user.getId()));
 
 		this.dbContext.getUsers().updateOne(searchQuery, newDocument);
 
 	}
 
-	public User getUserById(Long userId) {
+	public User getUserById(String userId) {
 		BasicDBObject whereQuery = new BasicDBObject();
-		whereQuery.put("id", userId.toString());
+		whereQuery.put("_id", new ObjectId(userId));
 		return convert(dbContext.getUsers().find(whereQuery).first());
 	}
 
 	private User convert(Document document) {
-		System.out.println(document.get("friends"));
-		User user = new User(document.getLong("id"), (List<Long>) document.get("friends"), document.getString("name"),
+		if(document==null) {
+			return null;
+		}
+		User user = new User(document.getObjectId("_id").toHexString(), (List<String>) document.get("friends"), document.getString("name"),
 				document.getString("surname"), document.getString("username"), null);
 		user.setPassword(document.getString("password"));
 		return user;
@@ -80,7 +83,6 @@ public class UserRepository {
 
 	private Document reverseConvert(User user) {
 		Document document = new Document();
-		document.append("id", user.getId());
 		document.append("friends", user.getFriends());
 		document.append("name", user.getName());
 		document.append("surname", user.getSurname());

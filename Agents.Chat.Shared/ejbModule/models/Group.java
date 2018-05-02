@@ -4,16 +4,16 @@ import java.util.List;
 
 public class Group {
 	
-	private Long id;
-	private Long groupAdminId;
+	private String id;
+	private String groupAdminId;
 	private String name;
-	private List<Long> usersIds;
+	private List<String> usersIds;
 	
 	public Group() {
 		
 	}
 
-	public Group(Long id, Long groupAdminId, String name, List<Long> usersIds) {
+	public Group(String id, String groupAdminId, String name, List<String> usersIds) {
 		super();
 		this.id = id;
 		this.groupAdminId = groupAdminId;
@@ -23,11 +23,11 @@ public class Group {
 
 
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 	
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	
@@ -40,20 +40,20 @@ public class Group {
 	}
 
 
-	public List<Long> getUsersIds() {
+	public List<String> getUsersIds() {
 		return usersIds;
 	}
 
 
-	public void setUsersIds(List<Long> usersIds) {
+	public void setUsersIds(List<String> usersIds) {
 		this.usersIds = usersIds;
 	}
 
-	public Long getGroupAdminId() {
+	public String getGroupAdminId() {
 		return groupAdminId;
 	}
 
-	public void setGroupAdminId(Long groupAdminId) {
+	public void setGroupAdminId(String groupAdminId) {
 		this.groupAdminId = groupAdminId;
 	}
 	

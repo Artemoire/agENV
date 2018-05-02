@@ -68,14 +68,14 @@ public class UserController {
 
 	@POST
 	@Path("/friends/{userId}/{friendId}")
-	public void addFriend(@PathParam("userId") Long userId, @PathParam("friendId") Long friendId) {
+	public void addFriend(@PathParam("userId") String userId, @PathParam("friendId") String friendId) {
 		userService.addFriend(friendId, userId);
 
 	}
 
 	@DELETE
 	@Path("/friends/{userId}/{friendId}")
-	public void deleteFriend(@PathParam("userId") Long userId, @PathParam("friendId") Long friendId) {
+	public void deleteFriend(@PathParam("userId") String userId, @PathParam("friendId") String friendId) {
 		userService.deleteFriend(friendId, userId);
 
 	}

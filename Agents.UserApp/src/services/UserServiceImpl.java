@@ -27,6 +27,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean register(User user) {
 		String username = user.getUsername();
+		user.setFriends(new ArrayList<String>(0));
 		User userCheck = userRepository.getUserByUsername(username);
 		if (userCheck != null) {
 			return false;
@@ -46,12 +47,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void addFriend(Long friendId, Long userId) {
+	public void addFriend(String friendId, String userId) {
 		userRepository.addFriend(friendId, userId);
 	}
 
 	@Override
-	public void deleteFriend(Long friendId, Long userId) {
+	public void deleteFriend(String friendId, String userId) {
 		userRepository.deleteFriend(userId, friendId);
 
 	}

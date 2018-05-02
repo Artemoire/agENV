@@ -4,8 +4,8 @@ import java.util.List;
 
 public class User {
 	
-	private Long id;
-	private List<Long> friends;
+	private String id;
+	private List<String> friends;
 	private String name;
 	private String surname;
 	private String username;
@@ -16,7 +16,7 @@ public class User {
 		
 	}
 	
-	public User(Long id, List<Long> friends, String name, String surname, String username, Host host) {
+	public User(String id, List<String> friends, String name, String surname, String username, Host host) {
 		super();
 		this.id = id;
 		this.friends = friends;
@@ -80,19 +80,19 @@ public class User {
 	}
 	
 
-	public List<Long> getFriends() {
+	public List<String> getFriends() {
 		return friends;
 	}
 
-	public void setFriends(List<Long> friends) {
+	public void setFriends(List<String> friends) {
 		this.friends = friends;
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

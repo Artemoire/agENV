@@ -6,13 +6,13 @@ import models.Group;
 
 public interface GroupService {
 
-	List<Group> getAllGroups();
+	List<Group> getAllGroups(String userId);
 	
-	void createGroup(Long groupAdminId, String name);
+	void createGroup(String groupAdminId, String name);
 	
-	void deleteGroup(Long groupAdminId, Long groupId);
+	void deleteGroup(String groupAdminId, String groupId);
 	
-	void addNewUser(Long groupAdminId, Long newUserId, Long groupId);
+	void addNewUser(String groupAdminId, String newUserId, String groupId);
 	
-	void deleteUser(Long groupAdminId, Long newUserId, Long groupId);
+	void deleteUser(String groupAdminId, String newUserId, String groupId);
 }
