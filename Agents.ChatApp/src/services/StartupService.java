@@ -1,5 +1,7 @@
 package services;
 
+import java.util.HashMap;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
@@ -11,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 
 import apps.SharedApi;
 import cluster.MasterHost;
+import models.Host;
 
 @Startup
 @Singleton
@@ -37,8 +40,7 @@ public class StartupService {
 		        		if (!master.isHere()) {
 		        			Client client = ClientBuilder.newClient();
 		        			alias = client.target("http://" + master.getAddress() + "/UserApp/rest" + SharedApi.CLUSTERS)
-		        					.request(MediaType.APPLICATION_JSON).post(null).readEntity(String.class);
-		        			System.out.println(alias);
+		        					.request(MediaType.APPLICATION_JSON).post(null).readEntity(String.class);		        			
 		        			// Send Get Logged In Users Request
 		        		}
 		            }

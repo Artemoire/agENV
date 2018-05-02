@@ -7,7 +7,7 @@
 	<env-entry>
 		<env-entry-name>MasterNodeHost</env-entry-name>
 		<env-entry-type>java.lang.String</env-entry-type>
-		<env-entry-value>192.168.0.53:8080</env-entry-value>
+		<env-entry-value>localhost:8080</env-entry-value>
 	</env-entry>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
