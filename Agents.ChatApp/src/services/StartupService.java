@@ -20,9 +20,15 @@ public class StartupService {
 	private MasterHost master;
 
 	private String alias;
+	
+	private String masterAddress;
+	private boolean isMaster;
 
 	@PostConstruct
 	void init() {
+		isMaster = master.isHere();
+		masterAddress = master.getAddress();
+		
 		new java.util.Timer().schedule( 
 		        new java.util.TimerTask() {
 		            @Override
@@ -43,9 +49,9 @@ public class StartupService {
 
 	@PreDestroy
 	void dispose() {
-		if (!master.isHere()) {
+		if (!isMaster) {
 			Client client = ClientBuilder.newClient();
-			client.target("http://" + master.getAddress() + "/UserApp/rest" + SharedApi.CLUSTERS + "/" + alias)
+			client.target("http://" + masterAddress + "/UserApp/rest" + SharedApi.CLUSTERS + "/" + alias)
 					.request().delete();
 		}
 	}

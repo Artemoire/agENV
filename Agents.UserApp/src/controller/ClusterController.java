@@ -29,8 +29,10 @@ public class ClusterController {
 	private HttpServletRequest request;
 
 	@POST
-	public void register() {
-		clusterService.register(new Host(request.getRemoteAddr() + ":" + request.getServerPort(), ""));
+	public String register() {
+		Host host = new Host(request.getRemoteAddr() + ":" + request.getServerPort(), "");
+		clusterService.register(host);
+		return host.getAlias();
 	}
 
 	@DELETE
