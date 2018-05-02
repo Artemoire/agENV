@@ -5,6 +5,14 @@ public class Host {
 	private String address;
 	private String alias;
 
+	public Host() {
+	}
+
+	public Host(String address, String alias) {
+		this.address = address;
+		this.alias = alias;
+	}
+
 	public String getAddress() {
 		return address;
 	}

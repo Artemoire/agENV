@@ -1,9 +1,9 @@
 package cluster;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.ejb.Singleton;
 
 import models.Host;
@@ -27,6 +27,10 @@ public class NodeRegistry {
 	public void unregisterNode(String alias) {
 		nodes.remove(alias);
 		System.out.println(nodes);
+	}
+	
+	public Collection<Host> getHosts() {
+		return nodes.values();
 	}
 	
 }
