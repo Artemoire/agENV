@@ -1,10 +1,6 @@
 package jms;
 
-import java.util.HashMap;
-
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -13,12 +9,6 @@ import javax.jms.MessageProducer;
 import javax.jms.ObjectMessage;
 import javax.jms.Queue;
 import javax.jms.Session;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-
-import controllers.GroupController;
-import controllers.UserController;
 
 @Stateless
 public class JMSProducer {

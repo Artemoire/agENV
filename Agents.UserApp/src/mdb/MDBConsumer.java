@@ -17,7 +17,6 @@ import controller.GroupController;
 import controller.UserController;
 import jms.JMSMessage;
 import jms.JMSMethodResolver;
-import models.User;
 
 @MessageDriven(activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),

@@ -52,8 +52,7 @@ public class JMSMethodResolver {
 	}
 
 	public Method resolve(String methodName) {
-		
-
+	
 		return methods.get(methodName);
 	}
 
