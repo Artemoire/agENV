@@ -27,19 +27,16 @@ public class UserController {
 	@EJB
 	ProxyUserService userService;
 
-	@EJB
-	ActiveUserService activeUserService;
-
 	@POST
 	@Path("/login")
 	public void login(User user) {
-		activeUserService.getActiveUsers().add(user);
+		userService.login(user);
 	}
 
 	@POST
 	@Path("/logout")
 	public void logout(User user) {
-		activeUserService.removeActiveUser(user);
+		userService.logout(user);
 	}
 
 	@POST

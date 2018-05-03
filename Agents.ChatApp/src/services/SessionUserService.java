@@ -22,4 +22,13 @@ public class SessionUserService {
 		return sessionUsers.containsKey(session);
 	}
 	
+	public Session getSessionByUserId(String userId) {
+		for(Session session : sessionUsers.keySet())
+		{
+			if (sessionUsers.get(session).getId().equals(userId))
+				return session;
+		}
+		return null;
+	}
+	
 }

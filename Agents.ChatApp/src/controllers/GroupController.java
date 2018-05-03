@@ -11,6 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import apps.SharedApi;
+import models.Group;
 import services.ProxyGroupService;
 
 @Path(SharedApi.GROUPS)
@@ -23,9 +24,8 @@ public class GroupController {
 	ProxyGroupService groupService;
 
 	@POST
-	@Path("/{groupAdminId}/{groupName}")
-	public void createGroup(@PathParam("groupAdminId") String groupAdminId, @PathParam("groupName") String groupName) {
-		groupService.createGroup(groupAdminId, groupName);
+	public void createGroup(Group group) {
+		groupService.createGroup(group);
 	}
 
 	@DELETE
@@ -42,11 +42,9 @@ public class GroupController {
 
 	}
 
-	@DELETE
-	@Path("/deleteUsersFromGroup/{groupAdminId}/{newUserId}/{groupId}")
-	public void deleteUser(@PathParam("groupAdminId") String groupAdminId, @PathParam("newUserId") String newUserId,
-			@PathParam("groupId") String groupId) {
-		groupService.deleteUser(groupAdminId, newUserId, groupId);
-
+	@POST
+	@Path("/{groupId}/{userId}")
+	public void deleteUser(@PathParam("groupId") String groupId, @PathParam("userId") String userId) {
+//		groupService.deleteUser(groupAdminId, newUserId, groupId);
 	}
 }
