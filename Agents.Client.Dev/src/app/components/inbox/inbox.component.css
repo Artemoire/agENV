@@ -1,0 +1,52 @@
+.inbxc-col-full {
+    display:flex;    
+    height: 100%;
+    flex-direction: column;
+}
+
+.inbxc-row-full {
+    display:flex;    
+    flex: 1 1 auto;
+    flex-direction: row;
+}
+
+.inbx-full {
+    background-color: #30affa;
+    flex: 1 1 auto;
+}
+
+.inbx-users {
+    flex: 0 0 350px;
+    background-color: white;
+}
+
+.flexbox {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    height: 100%;
+    width: 100%;
+  }
+  .flexbox .main {
+    flex: 1;
+    background: red
+  }
+  .flexbox .header,
+  .flexbox .footer {
+    background: green;
+    padding:1em
+  }
+  .flexbox-row {
+    display: flex;
+    height: 100%;
+  }
+  .flexbox-row .first,
+  .flexbox-row .second,
+  .flexbox-row .third {
+    background: #C9E1F4;
+    padding: 1em;
+  }
+  .flexbox-row .second {
+    flex: 1;
+    background: #A8EDAC
+  }

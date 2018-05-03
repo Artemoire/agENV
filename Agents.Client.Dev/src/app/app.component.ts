@@ -14,6 +14,6 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.ws.connect();
+    // this.ws.connect();
   }
 }
