@@ -19,6 +19,13 @@ export class WebsocketService {
   private onopen(ev: MessageEvent) {
     console.log(ev);
     console.log(this);
+    this.ws.send("REQUEST CREATE\nLOGIN\n" + JSON.stringify(
+      {
+        name: "Dejan",
+        surname: "Tot",
+        username: "Artemoire2",
+        password: "totjehot"
+      }));
   }
 
   private onmessage(ev: MessageEvent) {

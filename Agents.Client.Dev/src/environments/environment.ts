@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  wsEndpoint: "ws://localhost:8080/Agents.ChatApp/ws"
+  wsEndpoint: "ws://localhost:8080/ChatApp/ws"
 };

@@ -3,7 +3,7 @@ package services;
 import javax.ejb.Stateless;
 
 @Stateless
-public class RestfulUserService {
+public class ProxyUserService {
 	
 	public void addFriend(String friendId, String userId) {
 		// TODO: Send Websocket message

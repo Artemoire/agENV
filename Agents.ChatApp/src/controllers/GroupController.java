@@ -11,7 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import apps.SharedApi;
-import services.GroupService;
+import services.ProxyGroupService;
 
 @Path(SharedApi.GROUPS)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -20,7 +20,7 @@ import services.GroupService;
 public class GroupController {
 
 	@EJB
-	GroupService groupService;
+	ProxyGroupService groupService;
 
 	@POST
 	@Path("/{groupAdminId}/{groupName}")
