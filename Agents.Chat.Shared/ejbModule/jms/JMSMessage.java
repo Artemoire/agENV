@@ -1,17 +1,26 @@
 package jms;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JMSMessage implements Serializable {
 
-	private String data;
+	private String methodName;
 
-	public String getData() {
-		return data;
+	private ArrayList<Object> args;
+
+	public JMSMessage(String methodName, ArrayList<Object> args) {
+		this.methodName = methodName;
+		this.args = args;
 	}
 
-	public void setData(String data) {
-		this.data = data;
+	public String getMethodName() {
+		return methodName;
+	}
+
+	public ArrayList<Object> getArgs() {
+		return args;
 	}
 
 }
