@@ -16,7 +16,7 @@ import javax.ws.rs.core.MediaType;
 import apps.SharedApi;
 import models.User;
 import services.ActiveUserService;
-import services.RestfulUserService;
+import services.ProxyUserService;
 
 @Path(SharedApi.USERS)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -25,23 +25,10 @@ import services.RestfulUserService;
 public class UserController {
 
 	@EJB
-	RestfulUserService userService;
+	ProxyUserService userService;
 
 	@EJB
 	ActiveUserService activeUserService;
-
-	@Context HttpServletRequest req;
-
-	@GET
-	public String get() {
-		
-		System.out.println(req.getRemoteHost());
-		System.out.println(req.getRemoteAddr());
-		System.out.println(req.getRemotePort());
-		System.out.println(req.getLocalPort());
-		System.out.println(req.getServerPort());
-		return "";
-	}
 
 	@POST
 	@Path("/login")

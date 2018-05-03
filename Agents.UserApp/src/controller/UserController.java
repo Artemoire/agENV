@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.enterprise.context.SessionScoped;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -12,6 +13,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import models.User;
@@ -28,7 +30,7 @@ public class UserController {
 	UserService userService;
 
 	@EJB
-	ActiveUserService activeUserService;
+	ActiveUserService activeUserService;	
 
 	@SessionScoped
 	User loggedInUser;
@@ -44,16 +46,19 @@ public class UserController {
 	}
 
 	@POST
-	@Path("/login/{username}/{password}")
-	public void login(@PathParam("username") String username, @PathParam("password") String password) {
-		User user = userService.login(username, password);
+	@Path("/login")
+	public User login(User user) {
+		user = userService.login(user.getUsername(), user.getPassword());
 		if (user != null) {
 			activeUserService.getActiveUsers().add(user);
-			loggedInUser = user;
+			loggedInUser = user;			
+			// set host
 			System.out.println("logged in");
+			return user;
 		} else {
 			loggedInUser = null;
 		}
+		return null;
 
 	}
 

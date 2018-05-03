@@ -2,6 +2,8 @@ package websocket;
 
 import java.io.IOException;
 
+import javax.ejb.EJB;
+import javax.ejb.Stateful;
 import javax.websocket.CloseReason;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
@@ -10,24 +12,26 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 @ServerEndpoint("/ws")
+@Stateful
 public class ClientEndpoint {
 
-//	Logger log = Logger.getLogger(this.getClass());
-
+	@EJB
+	private WSMessageHandler messageHandler;
+	
+	@SuppressWarnings("unchecked")
 	@OnMessage
 	public void receiveMessage(String message, Session session) {
-//		log.info("Received : "+ message + ", session:" + session.getId());
+		messageHandler.handleMessage(WSUPMessage.parseRequest(message), session);
 	}
-	
+
 	@OnOpen
 	public void open(Session session) throws IOException {
-//		log.info("Open session:" + session.getId());		
-		session.getBasicRemote().sendText("Welcome to server!");
+		// log.info("Open session:" + session.getId());
 	}
-	
+
 	@OnClose
 	public void close(Session session, CloseReason c) {
-//		log.info("Closing:" + session.getId());
+		// log.info("Closing:" + session.getId());
 	}
 
 }
