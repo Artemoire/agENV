@@ -50,9 +50,4 @@ public class GroupController {
 		groupService.deleteUser(groupAdminId, newUserId, groupId);
 
 	}
-	/*@GET
-	@Path("/getAllGroups/")
-	public List<Group> getAllGroups(@PathParam("groupId") String groupId){
-		
-	}*/
 }
