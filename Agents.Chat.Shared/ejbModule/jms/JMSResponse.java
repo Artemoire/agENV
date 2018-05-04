@@ -1,27 +1,51 @@
-/*package jms;
+package jms;
 
 import java.io.Serializable;
-import java.util.HashMap;
 
 public class JMSResponse implements Serializable {
 
-	private HashMap<String, Consumer<WSUPContext>> requestMap;
-	
-	@EJB
-	private WSUserRequestService userService;
+	private int status;
+	private Object entity;
+	private String methodName;
+	private String userId;
 	
 	public JMSResponse(int status, Object entity) {
-		// TODO Auto-generated constructor stub
+		super();
+		this.status = status;
+		this.entity = entity;
 	}
 
-	@PostConstruct
-	private void init() {
-		requestMap = new HashMap<>();
-		requestMap.put("login", userService::login);
-		// ...
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public Object getEntity() {
+		return entity;
+	}
+
+	public void setEntity(Object entity) {
+		this.entity = entity;
+	}
+
+	public String getMethodName() {
+		return methodName;
+	}
+
+	public void setMethodName(String methodName) {
+		this.methodName = methodName;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	
-	public void handleRequest(WSUPContext context) {
-		requestMap.get(context.getMessage().getContext()).accept(context);
-	}
-}*/
+	
+}
