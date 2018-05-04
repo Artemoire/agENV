@@ -17,6 +17,7 @@ import controller.GroupController;
 import controller.UserController;
 import jms.JMSMessage;
 import jms.JMSMethodResolver;
+import jms.producer.JMSProducer;
 
 @MessageDriven(activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
@@ -34,6 +35,9 @@ public class MDBConsumer implements MessageListener {
 	@EJB
 	JMSMethodResolver jmsMethodResolver;
 
+	@EJB
+	JMSProducer producer;
+
 	@PostConstruct
 	private void init() {
 		instances.put(groupController.getClass(), groupController);
@@ -42,13 +46,21 @@ public class MDBConsumer implements MessageListener {
 
 	@Override
 	public void onMessage(Message arg0) {
-
+		System.out.println("MDB USERAPP CONSUMED");
 		Object object;
 		try {
 			object = ((ObjectMessage) arg0).getObject();
 			JMSMessage message = (JMSMessage) object;
 			Method m = jmsMethodResolver.resolve(message.getMethodName());
-			m.invoke(instances.get(m.getDeclaringClass()), message.getArgs().toArray());
+			
+			javax.ws.rs.core.Response response = (javax.ws.rs.core.Response) m.invoke(instances.get(m.getDeclaringClass()),
+					message.getArgs().toArray());
+			
+			
+			//producer.sendMassage(new JMSResponse(response.getStatus(), response.getEntity()));
+			
+			// response.getEntity mora biti serializable
+			// class JMSResponse  { status: int, response: Serializable } 
 		} catch (JMSException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

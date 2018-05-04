@@ -1,4 +1,6 @@
-package jms;
+package jms.producer;
+
+import java.io.Serializable;
 
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
@@ -18,17 +20,14 @@ public class JMSProducer {
 	@Resource(mappedName = "java:/queue/mojQueue")
 	private Queue queue;
 
-	
-
-	
-	public void sendMassage(JMSMessage jmsMessage) {
+	public void sendMassage(Serializable message) {
 
 		try {
 			Connection connection = connectionFactory.createConnection();
 			Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 			MessageProducer sender = session.createProducer(queue);
 			ObjectMessage objectMessage = session.createObjectMessage();
-			objectMessage.setObject(jmsMessage);
+			objectMessage.setObject(message);
 			sender.send(objectMessage);
 
 			sender.close();
@@ -40,3 +39,4 @@ public class JMSProducer {
 	}
 
 }
+
