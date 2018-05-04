@@ -35,20 +35,7 @@ public class ClusterController {
 	ChatAppDbContext db;
 
 	// TODO Accept requests only from Master UserApp
-	@EJB
-	JMSProducer jmsProducer;
-	
-	@GET
-	public String get() {
-		ArrayList<Object> list = new ArrayList<Object>();
-		User u = new User();
-		u.setUsername("tot");
-		u.setPassword("totjehot");
-		list.add(u);
-		jmsProducer.sendMassage(new JMSMessage(JMSMethodNames.login, list));
-		return "hi2";
-	}
-	
+
 	@POST
 	public void register(Host host) {
 		clusterService.register(host);

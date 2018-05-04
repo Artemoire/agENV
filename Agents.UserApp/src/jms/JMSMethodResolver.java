@@ -25,6 +25,8 @@ public class JMSMethodResolver {
 	@PostConstruct
 	public void init() {
 		try {
+			methods.put(JMSMethodNames.getAllUsers, userController.getClass().getMethod("getAllUsers", (Class<?>[]) null));
+			methods.put(JMSMethodNames.getFriends, userController.getClass().getMethod("getFriends", String.class));
 			methods.put(JMSMethodNames.register, userController.getClass().getMethod("registerUser", User.class));
 			methods.put(JMSMethodNames.login, userController.getClass().getMethod("login", User.class));
 			methods.put(JMSMethodNames.logout, userController.getClass().getMethod("logout", User.class));

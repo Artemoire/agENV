@@ -84,4 +84,17 @@ public class WSUPMessage {
 		return actionType + "/" + context;
 	}
 
+	public static WSUPMessage buildResponse(WSUPResponseType type, String methodName, Object data) {
+		String[] methodSplit = methodName.split("/");
+		if (methodSplit.length != 2)
+			return null;
+		WSUPMessage response = new WSUPMessage();
+		response.action = WSUPAction.RESPONSE;
+		response.type = WSUPRequestType.valueOf(methodSplit[0]).ordinal();
+		response.response = type.ordinal();
+		response.context = methodSplit[1];
+		response.bodyData = new Gson().toJson(data);
+		return response;
+	}
+
 }

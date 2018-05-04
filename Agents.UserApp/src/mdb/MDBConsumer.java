@@ -17,6 +17,7 @@ import controller.GroupController;
 import controller.UserController;
 import jms.JMSMessage;
 import jms.JMSMethodResolver;
+import jms.JMSResponse;
 import jms.producer.JMSProducer;
 
 @MessageDriven(activationConfig = {
@@ -52,15 +53,13 @@ public class MDBConsumer implements MessageListener {
 			object = ((ObjectMessage) arg0).getObject();
 			JMSMessage message = (JMSMessage) object;
 			Method m = jmsMethodResolver.resolve(message.getMethodName());
-			
-			javax.ws.rs.core.Response response = (javax.ws.rs.core.Response) m.invoke(instances.get(m.getDeclaringClass()),
-					message.getArgs().toArray());
-			
-			
-			//producer.sendMassage(new JMSResponse(response.getStatus(), response.getEntity()));
-			
-			// response.getEntity mora biti serializable
-			// class JMSResponse  { status: int, response: Serializable } 
+
+			javax.ws.rs.core.Response response = (javax.ws.rs.core.Response) m
+					.invoke(instances.get(m.getDeclaringClass()), message.getArgs().toArray());
+
+			producer.sendMassage(new JMSResponse(response.getStatus(), response.getEntity(), message.getMethodName(),
+					message.getMethodName()));
+
 		} catch (JMSException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

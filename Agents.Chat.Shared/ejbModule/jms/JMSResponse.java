@@ -7,12 +7,14 @@ public class JMSResponse implements Serializable {
 	private int status;
 	private Object entity;
 	private String methodName;
-	private String userId;
-	
-	public JMSResponse(int status, Object entity) {
-		super();
+	private String sesId;
+
+	public JMSResponse(int status, Object entity, String methodName, String sesId) {
+
 		this.status = status;
 		this.entity = entity;
+		this.methodName = methodName;
+		this.sesId = sesId;
 	}
 
 	public int getStatus() {
@@ -39,13 +41,8 @@ public class JMSResponse implements Serializable {
 		this.methodName = methodName;
 	}
 
-	public String getUserId() {
-		return userId;
+	public String getSesId() {
+		return sesId;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-	
-	
 }
