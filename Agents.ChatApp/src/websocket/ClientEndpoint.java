@@ -16,7 +16,7 @@ import javax.websocket.server.ServerEndpoint;
 public class ClientEndpoint {
 
 	@EJB
-	private WSMessageHandler messageHandler;
+	private WSRequestHandler messageHandler;
 	
 	@SuppressWarnings("unchecked")
 	@OnMessage

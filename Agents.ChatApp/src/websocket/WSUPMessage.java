@@ -2,6 +2,8 @@ package websocket;
 
 import java.util.Map;
 
+import javax.ws.rs.client.ResponseProcessingException;
+
 import com.google.gson.Gson;
 
 public class WSUPMessage {
@@ -32,6 +34,15 @@ public class WSUPMessage {
 		m.bodyData = messageSplit[2];
 		return m;
 	}
+	
+	public WSUPMessage response(WSUPResponseType type, Object data) {
+		WSUPMessage response = new WSUPMessage();
+		response.action = WSUPAction.RESPONSE;
+		response.type = type.ordinal();
+		response.context = context;
+		response.bodyData = new Gson().toJson(data);
+		return response;
+	}
 
 	public <T> T getBodyAs(Class<T> classOfT) {
 		return new Gson().fromJson(bodyData, classOfT);
@@ -58,6 +69,17 @@ public class WSUPMessage {
 			actionType = WSUPResponseType.values()[type].toString();
 		}
 		return action.toString() + " " + actionType + "\n" + context + "\n" + bodyData;
+	}
+
+	public String toActionString() {
+		// TODO Auto-generated method stub
+		String actionType = "";
+		if (action == WSUPAction.REQUEST) {
+			actionType = WSUPRequestType.values()[type].toString();
+		} else if (action == WSUPAction.RESPONSE) {
+			actionType = WSUPResponseType.values()[type].toString();
+		}
+		return actionType + "/" + context;
 	}
 
 }
