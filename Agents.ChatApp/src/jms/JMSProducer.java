@@ -17,9 +17,6 @@ public class JMSProducer {
 	private ConnectionFactory connectionFactory;
 	@Resource(mappedName = "java:/queue/mojQueue")
 	private Queue queue;
-
-	
-
 	
 	public void sendMassage(JMSMessage jmsMessage) {
 

@@ -12,6 +12,8 @@ import javax.jms.ObjectMessage;
 import javax.jms.Queue;
 import javax.jms.Session;
 
+import jms.JMSResponse;
+
 @Stateless
 public class JMSProducer {
 
@@ -20,7 +22,7 @@ public class JMSProducer {
 	@Resource(mappedName = "java:/queue/mojQueue")
 	private Queue queue;
 
-	public void sendMassage(Serializable message) {
+	public void sendMassage(JMSResponse message) {
 
 		try {
 			Connection connection = connectionFactory.createConnection();
