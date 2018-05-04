@@ -2,7 +2,6 @@ package controller;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.enterprise.context.SessionScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -28,20 +27,25 @@ public class UserController {
 	UserService userService;
 
 	@EJB
-	ActiveUserService activeUserService;	
-
-	@SessionScoped
-	User loggedInUser;
+	ActiveUserService activeUserService;
 
 	@GET
 	public Response getAllUsers() {
 		return Response.ok(userService.getAll()).build();
 	}
+	
+	@GET
+	@Path("/{userId}/friends")
+	public Response getFriends(@PathParam("userId") String userId) {
+		return Response.ok().entity(userService.getFriends(userId)).build();
+	}
 
 	@POST
 	public Response registerUser(User user) {
-		loggedInUser = userService.register(user) ? user : null;
-		return Response.ok().entity("registered user").build();
+		if (userService.register(user))
+			return Response.ok().entity("registered user").build();
+		else
+			return Response.status(Status.BAD_REQUEST).entity("Username already exists").build();
 	}
 
 	@POST
@@ -50,12 +54,8 @@ public class UserController {
 		user = userService.login(user.getUsername(), user.getPassword());
 		if (user != null) {
 			activeUserService.getActiveUsers().add(user);
-			loggedInUser = user;			
 			// set host
-			System.out.println("logged in");
 			return Response.ok(user).build();
-		} else {
-			loggedInUser = null;
 		}
 		return Response.status(Status.BAD_REQUEST).entity("Bad username or password").build();
 
@@ -64,12 +64,8 @@ public class UserController {
 	@POST
 	@Path("/logout")
 	public Response logout(User user) {
-		if (loggedInUser == user) {
-			activeUserService.removeActiveUser(user);
-			loggedInUser = null;
-			return Response.ok().entity("User logged out").build();
-		}
-		return Response.status(Status.BAD_REQUEST).entity("User not logged out").build();
+		activeUserService.removeActiveUser(user);
+		return Response.ok().entity("User logged out").build();
 	}
 
 	@POST

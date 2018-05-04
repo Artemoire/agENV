@@ -11,6 +11,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
 import { InboxComponent } from './components/inbox/inbox.component';
+import { LoggedinUserService } from './services/loggedin-user.service';
+import { FriendsService } from './services/friends.service';
+import { ConversationService } from './services/conversation.service';
+import { AddFriendDialogComponent } from './components/add-friend-dialog/add-friend-dialog.component';
 
 
 @NgModule({
@@ -19,7 +23,8 @@ import { InboxComponent } from './components/inbox/inbox.component';
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    InboxComponent
+    InboxComponent,
+    AddFriendDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +32,10 @@ import { InboxComponent } from './components/inbox/inbox.component';
     FormsModule,
     MaterialModule
   ],
-  providers: [WebsocketService],
+  entryComponents: [
+    AddFriendDialogComponent
+  ],
+  providers: [WebsocketService, LoggedinUserService, FriendsService, ConversationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,26 +1,52 @@
-<!-- <div class="inbxc-col-full">
-    <div class="inbx-full">
-        <div class="inbxc-row-full">
-        <div class="inbx-users"></div>
-        </div>
+<div class="main-container">
+  <div class="header user">
+    <span>Dejan Tot</span>
+    <small>@Artemoire</small>
+  </div>
+  <div class="content-wrapper">
+    <div class="convos">
+      <ng-template [ngIf]="friends.loaded" [ngIfElse]="loadingFriends">
+        <ng-container *ngFor="let friend of friends.data; let i = index">
+          <div class="convo-item" [class.active]="i == selectedFriend" (click)="selectedFriend = i">
+            <span>{{friend.name}} {{friend.surname}}</span>
+          </div>
+        </ng-container>
+      </ng-template>
+      <ng-template #loadingFriends>
+        <span style="margin: auto">
+          <mat-spinner></mat-spinner>
+        </span>
+      </ng-template>
     </div>
-    <div>My footer</div>
-  </div> -->
-  <div class="flexbox">
-      <div class="header">Header</div>
-      <div class="main">
-        <div class="flexbox-row">
-          <div class="first">First</div>
-          <div class="second">Main</div>
-          <div class="third">Third</div>
+    <div class="chat-container">
+      <div class="chat">
+        <ng-container *ngFor="let x of [1,2,3,4,1,6,1,8,9,1,6,1,1]">
+          <div class="chat-bubble-container">
+            <span style="flex: 1 1 auto;" *ngIf="x == 1"></span>
+            <p class="chat-bubble" [class.me]="x == 1">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+            <span style="flex: 1 1 auto;" *ngIf="x != 1"></span>
+          </div>
+        </ng-container>
+        <div class="chat-bubble-container">
+          <span class="chat-bubble">Ayy lmao</span>
+          <span style="flex: 1 1 auto;"></span>
         </div>
       </div>
-      <div class="main">
-          <div class="flexbox-row">
-            <div class="first">First</div>
-            <div class="second">Main</div>
-            <div class="third">Third</div>
-          </div>
-        </div>
-      <div class="footer">Footer</div>
+      <div class="chat-input">
+        <mat-form-field style="flex: 1 1 auto;">
+          <textarea matInput placeholder="Send a message..."></textarea>
+        </mat-form-field>
+        <span style="margin: auto; padding: 10px">
+          <button mat-raised-button color="primary">Send</button>
+        </span>
+      </div>
     </div>
+  </div>
+  <div class="footer">
+    <span style="display: flex; align-items: stretch;">
+      <span style="flex: 1 1 auto"></span>
+      <button mat-raised-button color="primary" (click)="onAddFriend()">Add Friend</button>
+      <button mat-raised-button color="primary">Logout</button>
+    </span>
+  </div>
+</div>

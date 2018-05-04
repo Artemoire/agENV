@@ -1,6 +1,15 @@
-export const WSUPContexts: any = {
+export interface WSUPContextDeclarations {
+    login: string;
+    register: string;
+    friends: string;
+    users: string;
+}
+
+export const wsupContexts: WSUPContextDeclarations = {
     login: "LOGIN",
-    register: "REGISTER"
+    register: "REGISTER",
+    friends: "FRIENDS",
+    users: "USERS"
 }
 
 export enum WSUPRequestType {
@@ -25,8 +34,13 @@ export class WSUPRequest {
     }
 
     public toString(): string {
-        var type = WSUPRequestType[this.type]; 
+        var type = WSUPRequestType[this.type];
         return `REQUEST ${type}\n${this.context}\n${JSON.stringify(this.body)}`;
+    }
+
+    public toActionString(): string {
+        var type = WSUPRequestType[this.type];
+        return `${type}/${this.context}`;
     }
 
 }

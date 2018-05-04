@@ -1,6 +1,6 @@
-<ng-container *ngIf="true">
+<ng-container *ngIf="user.isLoggedIn">
   <app-inbox></app-inbox>
 </ng-container>
-<ng-container *ngIf="false">
+<ng-container *ngIf="!user.isLoggedIn">
     <app-login></app-login>
 </ng-container>

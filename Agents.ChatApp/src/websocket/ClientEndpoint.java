@@ -11,13 +11,22 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+import services.ActiveUserService;
+import services.SessionUserService;
+
 @ServerEndpoint("/ws")
 @Stateful
 public class ClientEndpoint {
 
 	@EJB
 	private WSRequestHandler messageHandler;
-	
+
+	@EJB
+	private SessionUserService sessionService;
+
+	@EJB
+	private ActiveUserService activeUserService;
+
 	@SuppressWarnings("unchecked")
 	@OnMessage
 	public void receiveMessage(String message, Session session) {
@@ -32,6 +41,9 @@ public class ClientEndpoint {
 	@OnClose
 	public void close(Session session, CloseReason c) {
 		// log.info("Closing:" + session.getId());
+		if (sessionService.isLoggedIn(session)) {
+			activeUserService.logout(sessionService.logout(session));
+		}
 	}
 
 }

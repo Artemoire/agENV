@@ -10,6 +10,7 @@ public class WSUPMessage {
 
 	private WSUPAction action;
 	private int type;
+	private int response;
 	private String context;
 	private String bodyData;
 
@@ -30,15 +31,17 @@ public class WSUPMessage {
 		WSUPMessage m = new WSUPMessage();
 		m.action = WSUPAction.REQUEST;
 		m.type = WSUPRequestType.valueOf(headerSplit[1]).ordinal();
+		m.response = -1;
 		m.context = messageSplit[1];
 		m.bodyData = messageSplit[2];
 		return m;
 	}
-	
+
 	public WSUPMessage response(WSUPResponseType type, Object data) {
 		WSUPMessage response = new WSUPMessage();
 		response.action = WSUPAction.RESPONSE;
-		response.type = type.ordinal();
+		response.type = this.type;
+		response.response = type.ordinal();
 		response.context = context;
 		response.bodyData = new Gson().toJson(data);
 		return response;
@@ -66,7 +69,8 @@ public class WSUPMessage {
 		if (action == WSUPAction.REQUEST) {
 			actionType = WSUPRequestType.values()[type].toString();
 		} else if (action == WSUPAction.RESPONSE) {
-			actionType = WSUPResponseType.values()[type].toString();
+			actionType = WSUPRequestType.values()[type].toString();
+			actionType += " " + WSUPResponseType.values()[response].toString();
 		}
 		return action.toString() + " " + actionType + "\n" + context + "\n" + bodyData;
 	}
@@ -76,8 +80,6 @@ public class WSUPMessage {
 		String actionType = "";
 		if (action == WSUPAction.REQUEST) {
 			actionType = WSUPRequestType.values()[type].toString();
-		} else if (action == WSUPAction.RESPONSE) {
-			actionType = WSUPResponseType.values()[type].toString();
 		}
 		return actionType + "/" + context;
 	}

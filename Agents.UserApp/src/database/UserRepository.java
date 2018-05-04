@@ -1,5 +1,6 @@
 package database;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -94,6 +95,14 @@ public class UserRepository {
 
 	public void saveUser(User user) {
 		this.dbContext.getUsers().insertOne(reverseConvert(user));
+	}
+
+	public List<User> getFriends(String userId) {
+		User user = getUserById(userId);
+		List<User> friends = new ArrayList<User>(user.getFriends().size());
+		for(String friendId : user.getFriends())
+			friends.add(getUserById(friendId));
+		return friends;
 	}
 
 }

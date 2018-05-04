@@ -31,6 +31,8 @@ public class WSRequestHandler {
 		authServiceConsumerMap = new HashMap<>();
 		unauthServiceConsumerMap.put(WSUPRequestType.CREATE + "/" + WSUPChatContext.LOGIN, userService::login);
 		unauthServiceConsumerMap.put(WSUPRequestType.CREATE + "/" + WSUPChatContext.REGISTER, userService::register);
+		authServiceConsumerMap.put(WSUPRequestType.READ + "/" + WSUPChatContext.FRIENDS, userService::getFriends);
+		authServiceConsumerMap.put(WSUPRequestType.READ + "/" + WSUPChatContext.USERS, userService::getAll);
 	}
 
 	public void handleMessage(WSUPMessage message, Session session) {
@@ -41,7 +43,6 @@ public class WSRequestHandler {
 		} else {
 			consumerMap = authServiceConsumerMap;
 		}
-
 		Consumer<WSUPRequestContext> consumer = consumerMap.get(message.toActionString());
 		if (consumer != null)
 			consumer.accept(context);

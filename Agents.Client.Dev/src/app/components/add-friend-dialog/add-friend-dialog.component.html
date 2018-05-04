@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>Add Friend</h1>
+<div mat-dialog-content>
+  <ng-template [ngIf]="loaded" [ngIfElse]="loading">
+      <mat-list>
+          <ng-container *ngFor="let user of users">
+            <mat-list-item>
+              <button mat-button [mat-dialog-close]="user" color="primary">{{user.username}}</button>
+            </mat-list-item>
+          </ng-container>
+        </mat-list>
+  </ng-template>
+  <ng-template #loading>
+    <span style="margin: auto">
+      <mat-spinner></mat-spinner>
+    </span>
+  </ng-template>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="dialogRef.close()">Cancel</button>
+</div>

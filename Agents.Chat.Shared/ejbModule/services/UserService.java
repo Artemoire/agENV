@@ -12,4 +12,5 @@ public interface UserService {
 	User login(String username, String password);
 	void addFriend(String friendId, String userId);
 	void deleteFriend(String friendId, String userId);
+	List<User> getFriends(String userId);
 }

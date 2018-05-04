@@ -35,4 +35,12 @@ public class ActiveUserService {
 		}
 	}
 
+	public void login(User user) {
+		activeUsers.add(user);
+	}
+
+	public void logout(User user) {
+		activeUsers.remove(user);		
+	}
+
 }

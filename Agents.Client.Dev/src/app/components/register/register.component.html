@@ -1,20 +1,25 @@
 <div style="text-align:center">
-  <form class="center-form">
+  <div class="center-form">
     <h1 style="color: #555">Register</h1>
     <mat-form-field>
-      <input matInput placeholder="Name">
+      <input matInput placeholder="Name" [(ngModel)]="model.name">
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Surname">
+      <input matInput placeholder="Surname" [(ngModel)]="model.surname">
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Username">
+      <input matInput placeholder="Username" [(ngModel)]="model.username">
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Password">
+      <input matInput placeholder="Password" [(ngModel)]="model.password">
     </mat-form-field>
     <div>
-      <button mat-raised-button color="primary">Register</button>
+      <button mat-raised-button color="primary" (click)="onRegister()">Register</button>
     </div>
-  </form>
+    <p *ngIf="usernameError" style="color: red">Username already exists</p>
+    <p *ngIf="otherError" style="color: red">An error occured...</p>
+    <div *ngIf="loading" style="margin: 10px">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+  </div>
 </div>
