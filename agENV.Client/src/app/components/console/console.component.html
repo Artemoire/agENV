@@ -1,10 +1,16 @@
 <div fxLayout style="max-height: 200px">
   <div fxFlex fxLayout="column" class="console-container">
-    <div fxLayout class="back-primary console-header" (click)="expanded = !expanded">
-      <span style="align-self: center">Output</span>
-      <span style="flex: 1 1 auto;"></span>
+    <div fxLayout class="back-primary console-header">
+      <span style="align-self: center" (click)="expanded = !expanded">Output</span>
+      <button mat-button class="icon-button-small" (click)="conn.connect()" *ngIf="conn.status == 2 && conn.connectionTry == 2"><mat-icon>refresh</mat-icon></button>
+      <span style="flex: 1 1 auto;" (click)="expanded = !expanded"></span>      
       <mat-icon>{{expanded?'expand_more':'expand_less'}}</mat-icon>
     </div>
+    <div fxFlex [ngSwitch]="conn.status">
+      <mat-progress-bar mode="indeterminate" *ngSwitchCase="0" color="complement"></mat-progress-bar>
+      <div style="height: 5px; background: #62fa47" *ngSwitchCase="1"></div>
+      <div style="height: 5px; background: #fa4762" *ngSwitchCase="2"></div>
+    </div>    
     <ng-container *ngIf="expanded">
       <app-console-output></app-console-output>
     </ng-container>

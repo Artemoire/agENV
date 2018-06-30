@@ -14,6 +14,13 @@ html, body {
         /* background-color: #3f51b5 !important; */
       }
 
+      .icon-button-small {
+        line-height: normal !important;
+        min-width: 0px !important;
+        border-radius: 50% !important;
+        padding: 0 !important;
+    }
+
       .back-primary {
         background-color: #3f51b5 !important;
         color: white !important;
@@ -22,3 +29,19 @@ html, body {
       pre {
           margin: 0;
       }
+  
+    .mat-progress-bar.mat-complement .mat-progress-bar-background {
+        fill: #f9ea8e;
+    }
+
+    .mat-progress-bar.mat-complement rect {
+      fill: #f9ea8e;
+  }
+
+  .mat-progress-bar.mat-complement .mat-progress-bar-buffer {
+    background-color: #f9ea8e;
+}
+
+    .mat-progress-bar.mat-complement .mat-progress-bar-fill::after {
+      background-color: #edca07;
+  }

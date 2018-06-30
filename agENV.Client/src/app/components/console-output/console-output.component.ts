@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LogService } from '../../services/websocket/log.service';
 
 @Component({
   selector: 'app-console-output',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConsoleOutputComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public log: LogService
+  ) { }
 
   ngOnInit() {
   }
