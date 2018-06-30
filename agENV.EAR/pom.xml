@@ -41,7 +41,7 @@
 						<webModule>
 							<groupId>com.agenv</groupId>
 							<artifactId>agENV.WAR</artifactId>
-							<contextRoot>/agENV</contextRoot>
+							<contextRoot>/</contextRoot>
 						</webModule>
 						<ejbModule>
 							<groupId>com.agenv</groupId>

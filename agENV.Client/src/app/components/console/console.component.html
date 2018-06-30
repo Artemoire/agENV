@@ -1,0 +1,12 @@
+<div fxLayout style="max-height: 200px">
+  <div fxFlex fxLayout="column" class="console-container">
+    <div fxLayout class="back-primary console-header" (click)="expanded = !expanded">
+      <span style="align-self: center">Output</span>
+      <span style="flex: 1 1 auto;"></span>
+      <mat-icon>{{expanded?'expand_more':'expand_less'}}</mat-icon>
+    </div>
+    <ng-container *ngIf="expanded">
+      <app-console-output></app-console-output>
+    </ng-container>
+  </div>
+</div>

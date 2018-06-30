@@ -15,6 +15,7 @@ public class ValuesController {
 
 	@GET
 	public String get() {
-		return "hello there";
+		return "Hello there";
 	}
+
 }

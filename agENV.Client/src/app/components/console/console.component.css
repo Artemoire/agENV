@@ -1,0 +1,12 @@
+.console-container {
+    background: #fafafa;
+    color: #444;
+}
+
+.console-header {
+    padding: 4px;
+    padding-left: 1em;
+    user-select: none;
+    cursor: pointer;
+    flex-shrink: 0;
+}
