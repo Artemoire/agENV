@@ -6,6 +6,15 @@ public class AID {
 	private AgentCenter host;
 	private AgentType type;
 
+	public AID() {
+	}
+
+	public AID(String name, AgentCenter host, AgentType type) {
+		this.name = name;
+		this.host = host;
+		this.type = type;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -28,6 +37,16 @@ public class AID {
 
 	public void setType(AgentType type) {
 		this.type = type;
+	}
+
+	// format: name+center+type
+	public static AID parse(String aid) {
+		String[] splits = aid.split("+");
+
+		if (splits.length != 3)
+			throw new RuntimeException("Invalid AID string format");
+
+		return new AID(splits[0], AgentCenter.parse(splits[1]), AgentType.parse(splits[2]));
 	}
 
 }

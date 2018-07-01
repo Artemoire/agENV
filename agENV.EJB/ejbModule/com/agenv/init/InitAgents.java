@@ -1,6 +1,5 @@
 package com.agenv.init;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,9 +9,10 @@ import javax.ejb.Singleton;
 import com.agenv.model.AID;
 import com.agenv.model.Agent;
 import com.agenv.model.AgentType;
+import com.agenv.services.InitService;
 
 @Singleton
-public class InitAgents{
+public class InitAgents implements InitService{
 
 	private ArrayList<AgentType> types = new ArrayList<>();
 
