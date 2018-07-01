@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ConnectionService } from '../../services/websocket/connection.service';
 
 @Component({
   selector: 'app-console',
@@ -9,9 +10,12 @@ export class ConsoleComponent implements OnInit {
 
   expanded: boolean = false;
 
-  constructor() { }
+  constructor(
+    public conn: ConnectionService
+  ) { }
 
   ngOnInit() {
+    this.conn.connect();
   }
 
 }

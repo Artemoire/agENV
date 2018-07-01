@@ -8,22 +8,18 @@ import javax.enterprise.event.Observes;
 
 import com.agenv.beans.WSSessionsBean;
 import com.agenv.event.LogEvent;
+import com.agenv.websocket.MessageDispatcher;
+import com.agenv.websocket.MessageType;
 
 @Stateless
 public class LogListener {
 
 	@EJB
-	private WSSessionsBean wsSessionsBean;
+	private MessageDispatcher dispatcher;
 
-	public void listen(@Observes LogEvent logEvent) {
+	public void listen(@Observes LogEvent logEvent) {		
 		System.out.println("EJB >> LogEvent: " + logEvent);
-		wsSessionsBean.stream().forEach(ses -> {
-			try {
-				ses.getBasicRemote().sendText(logEvent.getMessage());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
+		dispatcher.broadcast(MessageType.LOG, logEvent.getMessage());
 	}
 
 }
