@@ -1,4 +1,4 @@
-package model;
+package com.agenv.model;
 
 public class AID {
 

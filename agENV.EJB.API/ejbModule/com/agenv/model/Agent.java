@@ -1,8 +1,8 @@
-package bean;
+package com.agenv.model;
 
 import java.io.Serializable;
 
-import model.AID;
+import com.agenv.model.AID;
 
 public class Agent implements Serializable{
 

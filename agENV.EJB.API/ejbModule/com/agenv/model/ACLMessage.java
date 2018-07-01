@@ -1,4 +1,4 @@
-package model;
+package com.agenv.model;
 
 import java.util.HashMap;
 import java.util.List;
