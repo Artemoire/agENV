@@ -6,7 +6,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import com.agenv.beans.EnvBean;
-import com.agenv.model.Agent;
+import com.agenv.model.AID;
 import com.agenv.model.AgentType;
 import com.agenv.model.Node;
 import com.agenv.services.AgentService;
@@ -23,7 +23,7 @@ public class AgentServiceImpl implements AgentService {
 	}
 
 	@Override
-	public List<Agent> getRunningAgents() {
+	public List<AID> getRunningAgents() {
 		return envBean.getAgents();
 	}
 

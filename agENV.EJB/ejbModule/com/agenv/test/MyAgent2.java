@@ -6,7 +6,7 @@ import com.agenv.model.ACLMessage;
 import com.agenv.model.Agent;
 
 @Stateful
-public class MyAgent extends Agent {
+public class MyAgent2 extends Agent {
 
 	@Override
 	public void handleMessage(ACLMessage msg) {

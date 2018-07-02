@@ -55,6 +55,13 @@ public class EnvBean {
 
 	// findNodeByAgentCenter
 
+	public Agent findAgentByAID(AID aid) {
+		for(Agent agent : localAgents)
+			if(agent.getAgentId().equals(aid))
+				return agent;
+		return null;
+	}
+	
 	public Node findNodeByAgentType(AgentType type) {
 		for (Node node : nodes) {
 			if (node.getAgentTypes().contains(type)) {

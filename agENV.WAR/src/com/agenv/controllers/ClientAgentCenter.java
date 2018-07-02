@@ -16,7 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.agenv.model.ACLMessage;
-import com.agenv.model.Agent;
+import com.agenv.model.AID;
 import com.agenv.model.AgentType;
 import com.agenv.services.AgentService;
 import com.agenv.services.InitService;
@@ -47,7 +47,7 @@ public class ClientAgentCenter {
 	@GET
 	@Path("/agents/running")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Agent> getAgents() {
+	public List<AID> getAgents() {
 		return agentService.getRunningAgents();
 	}
 
