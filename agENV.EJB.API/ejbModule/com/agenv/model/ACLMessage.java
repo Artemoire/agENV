@@ -1,13 +1,14 @@
 package com.agenv.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 
-public class ACLMessage {
+public class ACLMessage implements Serializable{
 	
 	private Performative perform;
 	private AID sender;
-	private List<AID> recievers;
+	public List<AID> receivers;
 	private AID replyTo;
 	private String content;
 	private Object ContetntObj;
@@ -34,11 +35,11 @@ public class ACLMessage {
 	public void setSender(AID sender) {
 		this.sender = sender;
 	}
-	public List<AID> getRecievers() {
-		return recievers;
+	public List<AID> getReceivers() {
+		return receivers;
 	}
-	public void setRecievers(List<AID> recievers) {
-		this.recievers = recievers;
+	public void setReceivers(List<AID> receivers) {
+		this.receivers = receivers;
 	}
 	public AID getReplyTo() {
 		return replyTo;
