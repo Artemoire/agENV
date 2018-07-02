@@ -72,7 +72,8 @@ public class EnvBean {
 	}
 
 	public void newNodeRegistered(Node node) {
-
+		nodes.add(node);
+		generateTypes();
 	}
 
 	public void addNewAgent(AID agent) {

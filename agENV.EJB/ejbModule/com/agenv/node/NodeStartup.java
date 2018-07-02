@@ -47,7 +47,12 @@ public class NodeStartup {
 		Node node = new Node(new AgentCenter(config.nodeAlias(), config.nodeHost()), agentTypes);
 
 		if (!config.isMaster()) {
-			handshakeSlaveService.startHandshake(node);
+			new java.util.Timer().schedule(new java.util.TimerTask() {
+				@Override
+				public void run() {
+					handshakeSlaveService.startHandshake(node);
+				}
+			}, 5000);
 		} else {
 			List<Node> nodes = new ArrayList<Node>();
 			nodes.add(node);
