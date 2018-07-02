@@ -1,9 +1,10 @@
 package com.agenv.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 
-public class ACLMessage {
+public class ACLMessage implements Serializable{
 	
 	private Performative perform;
 	private AID sender;
