@@ -18,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 import com.agenv.model.ACLMessage;
 import com.agenv.model.AID;
 import com.agenv.model.AgentType;
+import com.agenv.model.Performative;
 import com.agenv.services.AgentService;
 import com.agenv.services.InitService;
 import com.agenv.services.MessageService;
@@ -55,7 +56,6 @@ public class ClientAgentCenter {
 	@Path("/agents/running/{type}/{name}")
 	public void startAgent(@PathParam("type") String type, @PathParam("name") String name) {
 		agentService.startAgent(type, name);
-
 	}
 
 	@DELETE
@@ -72,7 +72,7 @@ public class ClientAgentCenter {
 	
 	@GET
 	@Path("/messages")
-	public List<String> getPerformative() {
+	public List<Performative> getPerformative() {
 		return messageService.getPerformatives();
 	}
 }

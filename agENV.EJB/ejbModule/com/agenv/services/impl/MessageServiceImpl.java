@@ -1,5 +1,6 @@
 package com.agenv.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -13,6 +14,7 @@ import javax.jms.Queue;
 import javax.jms.Session;
 
 import com.agenv.model.ACLMessage;
+import com.agenv.model.Performative;
 import com.agenv.services.MessageService;
 
 @Stateless
@@ -22,7 +24,8 @@ public class MessageServiceImpl implements MessageService {
 	private ConnectionFactory connectionFactory;
 	@Resource(mappedName = "java:/queue/mojQueue")
 	private Queue queue;
-	
+	private ArrayList<Performative> performs = new ArrayList<Performative>();
+
 	@Override
 	public void sendACLMessage(ACLMessage acl) {
 		try {
@@ -36,16 +39,18 @@ public class MessageServiceImpl implements MessageService {
 			sender.close();
 			session.close();
 			connection.close();
-			
+
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public List<String> getPerformatives() {
-		
-		return null;
+	public List<Performative> getPerformatives() {
+		for (Performative p : Performative.values()) {
+			performs.add(p);
+		}
+		return performs;
 	}
 
 }

@@ -18,7 +18,7 @@ public class EnvBean {
 	private List<AID> agents;
 	private List<Agent> localAgents;
 	private Node localNode;
-	
+
 	private boolean loaded = false;
 
 	public void init(Node localNode, List<Node> nodes, List<AID> agents) {
@@ -36,7 +36,6 @@ public class EnvBean {
 		return agentTypes;
 	}
 
-	
 	public List<AID> getAgents() {
 		return agents;
 	}
@@ -56,12 +55,12 @@ public class EnvBean {
 	// findNodeByAgentCenter
 
 	public Agent findAgentByAID(AID aid) {
-		for(Agent agent : localAgents)
-			if(agent.getAgentId().equals(aid))
+		for (Agent agent : localAgents)
+			if (agent.getAgentId().equals(aid))
 				return agent;
 		return null;
 	}
-	
+
 	public Node findNodeByAgentType(AgentType type) {
 		for (Node node : nodes) {
 			if (node.getAgentTypes().contains(type)) {
@@ -75,14 +74,21 @@ public class EnvBean {
 
 	}
 
-	public void addNewAgent(AID agent) {
-		// TODO IMPL	
+	public boolean addNewAgent(AID agent) {
+		for (AID a : agents) {
+			if (agent.getName().equals(a.getName())) {
+				return false;
+			}
+		}
+		agents.add(agent);
+		return true;
+
 	}
-	
+
 	private void generateTypes() {
 		agentTypes.clear();
-		for(Node n : nodes)
-			for(AgentType at : n.getAgentTypes())
+		for (Node n : nodes)
+			for (AgentType at : n.getAgentTypes())
 				if (!agentTypes.contains(at))
 					agentTypes.add(at);
 	}

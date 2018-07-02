@@ -35,7 +35,6 @@ public class AgentServiceImpl implements AgentService {
 		if (node == null)
 			throw new RuntimeException("AgentType " + type + " not found");
 		
-		// da li sme postojati isti type+name
 
 		if (node == envBean.getLocalNode()) {			
 			// Create and notify

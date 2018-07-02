@@ -30,7 +30,7 @@ public class HandshakeSlaveService {
 		Start, Registered, ReceivedNodes, Finished
 	}
 
-	private Step step;
+	private Step step = Step.Start;
 
 	public Step getStep() {
 		return step;
