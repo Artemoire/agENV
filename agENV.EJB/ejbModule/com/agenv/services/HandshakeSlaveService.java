@@ -7,7 +7,6 @@ import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Response;
 
 import com.agenv.beans.EnvBean;
 import com.agenv.model.AID;
@@ -64,7 +63,6 @@ public class HandshakeSlaveService {
 		if (step != Step.ReceivedNodes)
 			throw new RuntimeException("HANDSHAKE ERR: NOT RECEIVED NODES (TODO: DOMAIN EXCP)");
 
-		this.nodes.add(0, localNode);
 		envBean.init(localNode, nodes, agents);
 		this.localNode = null;
 		this.nodes = null;

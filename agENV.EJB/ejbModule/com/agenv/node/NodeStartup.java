@@ -55,7 +55,6 @@ public class NodeStartup {
 			}, 5000);
 		} else {
 			List<Node> nodes = new ArrayList<Node>();
-			nodes.add(node);
 			envBean.init(node, nodes, new ArrayList<AID>());
 		}
 

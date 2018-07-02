@@ -10,9 +10,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.agenv.model.ACLMessage;
 import com.agenv.model.AID;
-import com.agenv.model.Agent;
 import com.agenv.model.Node;
+import com.agenv.services.MessageService;
 import com.agenv.services.NodeService;
 
 @Stateless
@@ -24,6 +25,9 @@ public class NodeSyncController {
 	@EJB
 	private NodeService clusterService;
 
+	@EJB
+	private MessageService messageService;
+
 	@Path("/node")
 	@POST
 	public void addNodes(List<Node> nodes) {
@@ -34,6 +38,12 @@ public class NodeSyncController {
 	@POST
 	public void addAgents(List<AID> agents) {
 		clusterService.addAgents(agents);
+	}
+
+	@Path("/agents/forward")
+	@POST
+	public void forwardACLMessage(ACLMessage acl) {
+		messageService.forwardACLMessages(acl);
 	}
 
 }

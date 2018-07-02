@@ -23,17 +23,18 @@ public class HandshakeMasterService {
 		payload.add(node);
 
 		// Step 1: Notify nodes of new node
-		for (Node myNode : envBean.getNodes().subList(1, envBean.getNodes().size() - 1)) {
+		for(int i = 1; i < envBean.getNodes().size(); ++i) {
+			Node myNode = envBean.getNodes().get(i);
 			ClientBuilder.newClient().target("http://" + myNode.getCenter().getAddress() + "/node").request().async()
 					.post(Entity.json(payload));
 		}
 		
-		// Step 2: Add node to myself
-		envBean.newNodeRegistered(node);
-
 		// Step 3: send my nodes to new node
 		ClientBuilder.newClient().target("http://" + node.getCenter().getAddress() + "/node").request()
-				.post(Entity.json(envBean.getNodes()));
+		.post(Entity.json(envBean.getNodes()));
+
+		// Step 2: Add node to myself
+		envBean.newNodeRegistered(node);
 
 		// Step 4: send running agents to new node
 		ClientBuilder.newClient().target("http://" + node.getCenter().getAddress() + "/agents/running").request()
