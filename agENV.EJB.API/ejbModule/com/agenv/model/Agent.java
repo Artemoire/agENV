@@ -12,6 +12,11 @@ public abstract class Agent implements Serializable{
 		
 	}
 
+	public Agent(AID agentId) {
+		super();
+		this.agentId = agentId;
+	}
+
 	public AID getAgentId() {
 		return agentId;
 	}
@@ -21,6 +26,10 @@ public abstract class Agent implements Serializable{
 	}
 
 	public abstract void handleMessage(ACLMessage msg);
+
+	public void init(AID aid) {
+		agentId = aid;
+	}
 	
 	
 }

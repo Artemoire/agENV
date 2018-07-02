@@ -52,7 +52,7 @@ public class EnvBean {
 		return localNode;
 	}
 
-	// findNodeByAgentCenter
+	//findNodeByAgentCenter
 
 	public Agent findAgentByAID(AID aid) {
 		for (Agent agent : localAgents)
@@ -71,7 +71,8 @@ public class EnvBean {
 	}
 
 	public void newNodeRegistered(Node node) {
-
+		nodes.add(node);
+		generateTypes();
 	}
 
 	public boolean addNewAgent(AID agent) {
@@ -91,6 +92,11 @@ public class EnvBean {
 			for (AgentType at : n.getAgentTypes())
 				if (!agentTypes.contains(at))
 					agentTypes.add(at);
+	}
+
+	public void addNewLocalAgent(Agent agent) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

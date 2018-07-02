@@ -4,9 +4,13 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 import com.agenv.beans.EnvBean;
 import com.agenv.model.AID;
+import com.agenv.model.Agent;
 import com.agenv.model.AgentType;
 import com.agenv.model.Node;
 import com.agenv.services.AgentService;
@@ -30,17 +34,30 @@ public class AgentServiceImpl implements AgentService {
 	@Override
 	public void startAgent(String type, String name) {
 
-		Node node = envBean.findNodeByAgentType(AgentType.parse(type));
+		AgentType agentType = AgentType.parse(type);
+		Node node = envBean.findNodeByAgentType(agentType);
 
 		if (node == null)
 			throw new RuntimeException("AgentType " + type + " not found");
-		
 
-		if (node == envBean.getLocalNode()) {			
-			// Create and notify
-			
-		} else {			
-			// ClientBuilder.newClient().target("node.get...").request().post(entity)
+		if (node == envBean.getLocalNode()) {
+			try {
+				Context ctx = new InitialContext();
+				Class<?> clazz = (Class<?>) ctx.lookup("java:global/" + agentType.getName());
+				Agent agent = (Agent) clazz.newInstance();
+				AID aid = new AID(name, node.getCenter(), agentType);
+				agent.init(aid);
+				envBean.addNewLocalAgent(agent);
+
+			} catch (NamingException e) {
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		} else {
+			// ClientBuilder.newClient().target("node.get...").request().put()
 		}
 	}
 
