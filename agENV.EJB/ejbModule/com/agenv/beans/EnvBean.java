@@ -15,6 +15,17 @@ public class EnvBean {
 	private List<AgentType> agentTypes;
 	private List<Agent> agents;
 	private Node localNode;
+	
+	private boolean loaded = false;
+
+	public void init(Node localNode, List<Node> nodes, List<Agent> agents) {
+		if (loaded)
+			return;
+		this.nodes = nodes;
+		this.agents = agents;
+		this.localNode = localNode;
+		this.loaded = true;		
+	}
 
 	public List<AgentType> getAgentTypes() {
 		return agentTypes;
@@ -41,6 +52,14 @@ public class EnvBean {
 			}
 		}
 		return null;
+	}
+
+	public void newNodeRegistered(Node node) {
+		// TODO: IMPL
+	}
+
+	public void addNewAgent(Agent agent) {
+		// TODO IMPL	
 	}
 
 }
