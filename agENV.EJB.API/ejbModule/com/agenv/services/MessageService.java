@@ -9,4 +9,5 @@ public interface MessageService {
 
 	public void sendACLMessage(ACLMessage acl);
 	public List<Performative> getPerformatives();
+	public void forwardACLMessages(ACLMessage acl);
 }

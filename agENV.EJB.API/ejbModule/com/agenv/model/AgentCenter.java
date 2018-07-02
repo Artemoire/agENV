@@ -1,11 +1,11 @@
 package com.agenv.model;
 
 public class AgentCenter {
-	
+
 	private String alias;
-	
+
 	private String address;
-	
+
 	public AgentCenter() {
 	}
 
@@ -29,7 +29,7 @@ public class AgentCenter {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	
+
 	// format: alias;address
 	public static AgentCenter parse(String type) {
 		String[] splits = type.split(";");
@@ -37,5 +37,13 @@ public class AgentCenter {
 			throw new RuntimeException("Invalid AgentCenter string format");
 		return new AgentCenter(splits[0], splits[1]);
 	}
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof AgentCenter))
+			return false;
+		AgentCenter agentCenter = (AgentCenter)obj;
+		return agentCenter.address.equals(address) && agentCenter.alias.equals(alias);
+	}
+
 }

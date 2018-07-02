@@ -26,7 +26,7 @@ public class MDBConsumer implements MessageListener {
 		try {			
 			ACLMessage acl = (ACLMessage) ((ObjectMessage) msg).getObject();
 
-			int i = msg.getIntProperty("idx");
+			int i = msg.getIntProperty("index");
 			AID aid = acl.receivers.get(i);
 			
 			Agent agent = envBean.findAgentByAID(aid);

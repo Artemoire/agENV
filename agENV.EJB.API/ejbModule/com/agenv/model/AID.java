@@ -49,4 +49,11 @@ public class AID {
 		return new AID(splits[0], AgentCenter.parse(splits[1]), AgentType.parse(splits[2]));
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof AID))
+			return false;
+		AID aid = (AID)obj;
+		return aid.name.equals(name) && aid.host.equals(host) && aid.type.equals(type);
+	}
 }

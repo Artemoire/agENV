@@ -37,4 +37,11 @@ public class AgentType {
 		return new AgentType(splits[0], splits[1]);
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof AgentCenter))
+			return false;
+		AgentType agentType = (AgentType) obj;
+		return agentType.name.equals(name) && agentType.module.equals(module);
+	}
 }
