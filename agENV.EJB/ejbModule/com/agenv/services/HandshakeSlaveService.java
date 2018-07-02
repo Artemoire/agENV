@@ -46,7 +46,7 @@ public class HandshakeSlaveService {
 		payload.add(localNode);
 
 		step = Step.Registered;
-		Response r = ClientBuilder.newClient().target("http://" + config.masterHost() + "/node").request()
+		ClientBuilder.newClient().target("http://" + config.masterHost() + "/node").request().async()
 				.post(Entity.json(payload));
 
 		// TODO: if r.status != 204
