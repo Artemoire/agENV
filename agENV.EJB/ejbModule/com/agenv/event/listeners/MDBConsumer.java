@@ -20,16 +20,12 @@ import com.agenv.model.Agent;
 
 public class MDBConsumer implements MessageListener {
 
-	private static final Logger LOG = LoggerFactory.getLogger(MDBConsumer.class);
-	@Inject
-	private AgentManagerBean agm;
-
 	@Override
 	public void onMessage(Message msg) {
 		try {
 			processMessage(msg);
 		} catch (JMSException ex) {
-			LOG.warn("Cannot process an incoming message.", ex);
+			System.out.println("No such agent: {}"+ex);
 		}
 	}
 
@@ -45,11 +41,11 @@ public class MDBConsumer implements MessageListener {
 	}
 
 	private void deliverMessage(ACLMessage msg, AID aid) {
-		Agent agent = agm.getAgentReference(aid);
+		Agent agent = null;
 		if (agent != null) {
 			agent.handleMessage(msg);
 		} else {
-			LOG.info("No such agent: {}", aid.getName());
+			System.out.println("No such agent: {}"+aid.getName());
 		}
 	}
 }

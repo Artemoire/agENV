@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.agenv.model.AID;
 
-public class Agent implements Serializable{
+public abstract class Agent implements Serializable{
 	
 	private AID agentId;
 
@@ -19,6 +19,8 @@ public class Agent implements Serializable{
 	public void setAgentId(AID agentId) {
 		this.agentId = agentId;
 	}
+
+	public abstract void handleMessage(ACLMessage msg);
 	
 	
 }
