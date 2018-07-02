@@ -20,7 +20,6 @@ import com.agenv.model.AID;
 import com.agenv.model.AgentType;
 import com.agenv.model.Performative;
 import com.agenv.services.AgentService;
-import com.agenv.services.InitService;
 import com.agenv.services.MessageService;
 
 @LocalBean
@@ -30,8 +29,6 @@ import com.agenv.services.MessageService;
 @Path("/")
 public class ClientAgentCenter {
 
-	@EJB
-	InitService init;
 
 	@EJB
 	AgentService agentService;
