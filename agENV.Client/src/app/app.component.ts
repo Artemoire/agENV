@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { LogService } from './services/websocket/log.service';
+import { DataService } from './services/agents/data.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,8 @@ import { LogService } from './services/websocket/log.service';
 export class AppComponent {
   
   constructor(
-    private logService: LogService
+    private logService: LogService,
+    private dataService: DataService
   ) {}
 
 }

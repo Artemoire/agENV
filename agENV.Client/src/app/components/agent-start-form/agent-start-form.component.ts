@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DataService } from '../../services/agents/data.service';
 
 @Component({
   selector: 'app-agent-start-form',
@@ -14,6 +15,7 @@ export class AgentStartFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    public data: DataService
   ) { }
 
   ngOnInit() {

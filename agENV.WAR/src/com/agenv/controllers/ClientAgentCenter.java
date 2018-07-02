@@ -26,6 +26,7 @@ import com.agenv.services.MessageService;
 @Stateless
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@Path("/")
 public class ClientAgentCenter {
 
 	@EJB
@@ -38,8 +39,7 @@ public class ClientAgentCenter {
 	MessageService messageService;
 
 	@GET
-	@Path("/agents/classes")
-	
+	@Path("/agents/classes")	
 	public List<AgentType> getTypes() {
 		return agentService.getAllTypes();
 	}

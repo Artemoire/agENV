@@ -3,8 +3,10 @@ package com.agenv.services.impl;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 
 import com.agenv.beans.EnvBean;
+import com.agenv.model.AID;
 import com.agenv.model.Agent;
 import com.agenv.model.Node;
 import com.agenv.node.NodeConfig;
@@ -12,6 +14,7 @@ import com.agenv.services.HandshakeMasterService;
 import com.agenv.services.HandshakeSlaveService;
 import com.agenv.services.NodeService;
 
+@Stateless
 public class NodeServiceImpl implements NodeService {
 
 	@EJB
@@ -46,7 +49,7 @@ public class NodeServiceImpl implements NodeService {
 	}
 
 	@Override
-	public void addAgents(List<Agent> agents) {
+	public void addAgents(List<AID> agents) {
 		if (handshakeSlaveService.handshook() || nodeConfig.isMaster()) {
 			if (agents.size() != 1)
 				return; // nothing to do here

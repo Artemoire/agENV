@@ -10,6 +10,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.agenv.model.AID;
 import com.agenv.model.Agent;
 import com.agenv.model.Node;
 import com.agenv.services.NodeService;
@@ -31,7 +32,7 @@ public class NodeSyncController {
 
 	@Path("/agents/running")
 	@POST
-	public void addAgents(List<Agent> agents) {
+	public void addAgents(List<AID> agents) {
 		clusterService.addAgents(agents);
 	}
 

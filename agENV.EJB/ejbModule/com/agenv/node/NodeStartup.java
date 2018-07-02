@@ -13,6 +13,7 @@ import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.CDI;
 
 import com.agenv.beans.EnvBean;
+import com.agenv.model.AID;
 import com.agenv.model.Agent;
 import com.agenv.model.AgentCenter;
 import com.agenv.model.AgentType;
@@ -50,7 +51,7 @@ public class NodeStartup {
 		} else {
 			List<Node> nodes = new ArrayList<Node>();
 			nodes.add(node);
-			envBean.init(node, nodes, new ArrayList<Agent>());
+			envBean.init(node, nodes, new ArrayList<AID>());
 		}
 
 	}

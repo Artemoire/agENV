@@ -9,8 +9,8 @@
       </mat-form-field>
       <mat-form-field style="display:block">
         <mat-select placeholder="Agent Type" formControlName="type">
-          <mat-option *ngFor="let type of null | utilsRange: 10" [value]="type">
-            Agent Type
+          <mat-option *ngFor="let type of data.types" [value]="type">
+            {{type.name}}
           </mat-option>
         </mat-select>
         <mat-error *ngIf="form.hasError('required',['name'])">Agent Type is required</mat-error>
