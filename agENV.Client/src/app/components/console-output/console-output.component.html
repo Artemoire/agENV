@@ -1,5 +1,5 @@
 <div fxFlex fxLayout="column" class="console-log-container" style="overflow: hidden;">
-  <ng-scrollbar [thumbClass]="'scrollbar-thumb'">
+  <ng-scrollbar [thumbClass]="'scrollbar-thumb'" #scrollRef>
     <pre class="console-log" *ngFor="let msg of log.messages">{{msg}}</pre>
   </ng-scrollbar>
 </div>

@@ -11,7 +11,7 @@ public class MyAgent2 extends Agent {
 	@Override
 	public void handleMessage(ACLMessage msg) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("MyAgent2 received "+msg.getContent());
 	}
 
 }

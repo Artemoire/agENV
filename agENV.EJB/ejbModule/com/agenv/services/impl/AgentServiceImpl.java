@@ -56,7 +56,7 @@ public class AgentServiceImpl implements AgentService {
 				List<AID> aids = new ArrayList<AID>();
 				aids.add(aid);
 				for (Node noddy : envBean.getNodes()) {
-					ClientBuilder.newClient().target("http://" + noddy.getCenter().getAddress() + "/agents/running")
+					ClientBuilder.newClient().target("http://" + noddy.getCenter().getAddress() + "/agENV/rest/agents/running")
 							.request().async().post(Entity.json(aids));
 				}
 
@@ -69,7 +69,7 @@ public class AgentServiceImpl implements AgentService {
 			}
 		} else {
 			ClientBuilder.newClient()
-					.target("http://" + node.getCenter().getAddress() + "/agents/running/{type}/{name}")
+					.target("http://" + node.getCenter().getAddress() + "/agENV/rest/agents/running/{type}/{name}")
 					.resolveTemplate("type", type).resolveTemplate("name", name).request().async().put(null);
 		}
 	}
@@ -82,11 +82,11 @@ public class AgentServiceImpl implements AgentService {
 		if (node == envBean.getLocalNode()) {
 			envBean.removeLocalAgent(agent);
 			for (Node noddy : envBean.getNodes()) {
-				ClientBuilder.newClient().target("http://" + noddy.getCenter().getAddress() + "/agents/running/delete")
+				ClientBuilder.newClient().target("http://" + noddy.getCenter().getAddress() + "/agENV/rest/agents/running/delete")
 						.request().async().post(Entity.json(agent.getAgentId()));
 			}
 		} else {
-			ClientBuilder.newClient().target("http://" + node.getCenter().getAddress() + "/agents/running/{aid}")
+			ClientBuilder.newClient().target("http://" + node.getCenter().getAddress() + "/agENV/rest/agents/running/{aid}")
 					.resolveTemplate("aid", aid).request().delete();
 		}
 	}

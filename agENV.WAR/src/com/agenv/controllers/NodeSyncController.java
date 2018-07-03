@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import com.agenv.model.ACLMessage;
 import com.agenv.model.AID;
 import com.agenv.model.Node;
+import com.agenv.services.LoggingService;
 import com.agenv.services.MessageService;
 import com.agenv.services.NodeService;
 
@@ -29,6 +30,9 @@ public class NodeSyncController {
 
 	@EJB
 	private MessageService messageService;
+	
+	@EJB
+	private LoggingService loggingService;
 
 	@Path("/node")
 	@POST
@@ -58,6 +62,12 @@ public class NodeSyncController {
 	@POST
 	public void deleteAgent(AID agent) {
 		clusterService.deleteAgent(agent);
+	}
+	
+	@Path("/log")
+	@POST
+	public void log(String content) {
+		loggingService.log(content);
 	}
 
 	@Path("/node")

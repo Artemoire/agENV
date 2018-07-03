@@ -27,7 +27,8 @@ html, body {
       }
 
       pre {
-          margin: 0;
+          margin: 10px;
+          white-space: pre-line;
       }
   
     .mat-progress-bar.mat-complement .mat-progress-bar-background {

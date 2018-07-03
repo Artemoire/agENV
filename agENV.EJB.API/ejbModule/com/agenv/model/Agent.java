@@ -2,6 +2,12 @@ package com.agenv.model;
 
 import java.io.Serializable;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+import com.agenv.services.AgentMessenger;
+
 public abstract class Agent implements Serializable {
 
 	private AID agentId;
@@ -33,8 +39,25 @@ public abstract class Agent implements Serializable {
 	public boolean equals(Object obj) {
 		if (!(obj instanceof Agent))
 			return false;
-		
-		return ((Agent)obj).agentId.equals(agentId);
+
+		return ((Agent) obj).agentId.equals(agentId);
 	}
+
+	protected AgentMessenger messenger() {
+		try {
+			Context ctx = new InitialContext();
+			return (AgentMessenger) ctx.lookup("java:module/AgentMessengerImpl");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public String toString() {
+		return agentId.toString();
+	}
+	
+	
 
 }

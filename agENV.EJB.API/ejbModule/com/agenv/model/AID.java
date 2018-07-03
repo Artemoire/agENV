@@ -1,6 +1,8 @@
 package com.agenv.model;
 
-public class AID {
+import java.io.Serializable;
+
+public class AID implements Serializable {
 
 	private String name;
 	private AgentCenter host;
@@ -39,9 +41,9 @@ public class AID {
 		this.type = type;
 	}
 
-	// format: name+center+type
+	// format: name|center|type
 	public static AID parse(String aid) {
-		String[] splits = aid.split("+");
+		String[] splits = aid.split("\\|");
 
 		if (splits.length != 3)
 			throw new RuntimeException("Invalid AID string format");
@@ -53,7 +55,12 @@ public class AID {
 	public boolean equals(Object obj) {
 		if (!(obj instanceof AID))
 			return false;
-		AID aid = (AID)obj;
+		AID aid = (AID) obj;
 		return aid.name.equals(name) && aid.type.equals(type);
+	}
+
+	@Override
+	public String toString() {
+		return type.getModule() + ":" + type.getName() + ":" + name;
 	}
 }

@@ -13,7 +13,8 @@ public class MyAgent extends Agent {
 	@Override
 	public void handleMessage(ACLMessage msg) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("MESSENGER >>>>>>>>>>>>>" + messenger());
+		System.out.println("MyAgent received " + msg.getContent());
 	}
 
 }

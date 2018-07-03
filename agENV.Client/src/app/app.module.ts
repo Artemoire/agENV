@@ -17,6 +17,7 @@ import { HomeComponent } from './components/home/home.component';
 import { UtilsRangePipe } from './pipes/utils-range.pipe';
 import { ConsoleComponent } from './components/console/console.component';
 import { ConsoleOutputComponent } from './components/console-output/console-output.component';
+import { NotInPipe } from './pipes/not-in.pipe';
 
 @NgModule({
   declarations: [
@@ -28,14 +29,15 @@ import { ConsoleOutputComponent } from './components/console-output/console-outp
     HomeComponent,
     UtilsRangePipe,
     ConsoleComponent,
-    ConsoleOutputComponent
+    ConsoleOutputComponent,
+    NotInPipe
   ],
   imports: [
     BrowserModule,
     FlexLayoutModule,
     HttpClientModule,
-    ReactiveFormsModule,
     FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     MaterialModule,
     LayoutModule

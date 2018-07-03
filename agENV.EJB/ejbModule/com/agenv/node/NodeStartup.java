@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.ejb.Schedule;
 import javax.ejb.Schedules;
@@ -42,6 +43,8 @@ public class NodeStartup {
 	@EJB
 	private EnvBean envBean;
 
+	private String mylias;
+
 	@PostConstruct
 	void init() throws IOException, NamingException {
 		config.init();
@@ -64,7 +67,7 @@ public class NodeStartup {
 		}
 
 		ctx.close();
-
+		mylias = config.nodeAlias();
 		Node node = new Node(new AgentCenter(config.nodeAlias(), config.nodeHost()), agentTypes);
 
 		if (!config.isMaster()) {
@@ -127,7 +130,12 @@ public class NodeStartup {
 					+ node.getCenter().getAlias());
 			return null;
 		}
+	}
 
+	@PreDestroy
+	public void killmepls() {
+		ClientBuilder.newClient().target("http://" + config.masterHost() + "/agENV/rest/node/" + mylias).request().async()
+				.delete();
 	}
 
 }

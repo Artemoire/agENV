@@ -32,7 +32,7 @@ public class HandshakeMasterService {
 		// Step 1: Notify nodes of new node
 		for (int i = 1; i < envBean.getNodes().size(); ++i) {
 			Node myNode = envBean.getNodes().get(i);
-			ClientBuilder.newClient().target("http://" + myNode.getCenter().getAddress() + "/node").request().async()
+			ClientBuilder.newClient().target("http://" + myNode.getCenter().getAddress() + "/agENV/rest/node").request().async()
 					.post(Entity.json(payload));
 		}
 		
@@ -70,13 +70,13 @@ public class HandshakeMasterService {
 	}
 
 	private boolean sendNodes(Node node) {
-		Response r = ClientBuilder.newClient().target("http://" + node.getCenter().getAddress() + "/node").request()
+		Response r = ClientBuilder.newClient().target("http://" + node.getCenter().getAddress() + "/agENV/rest/node").request()
 				.post(Entity.json(envBean.getNodes()));
 		return r.getStatus() == 204;
 	}
 
 	private boolean sendMyAgents(Node node) {
-		Response r = ClientBuilder.newClient().target("http://" + node.getCenter().getAddress() + "/agents/running")
+		Response r = ClientBuilder.newClient().target("http://" + node.getCenter().getAddress() + "/agENV/rest/agents/running")
 				.request().post(Entity.json(envBean.getAgents()));
 		return r.getStatus() == 204;
 	}
@@ -90,7 +90,7 @@ public class HandshakeMasterService {
 		for (int i = 1; i < envBean.getNodes().size(); ++i) {
 			Node myNode = envBean.getNodes().get(i);
 			ClientBuilder.newClient()
-					.target("http://" + myNode.getCenter().getAddress() + "/node/" + node.getCenter().getAlias())
+					.target("http://" + myNode.getCenter().getAddress() + "/agENV/rest/node/" + node.getCenter().getAlias())
 					.request().async().delete();
 		}
 	}

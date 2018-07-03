@@ -1,26 +1,43 @@
 <div fxFlex fxLayout fxLayoutAlign="center center" style="padding: 1em">
-    <mat-card>
-      <h1>Message</h1>
-      <form [formGroup]="form">
-        <mat-form-field style="display:block">
-          <input matInput placeholder="Name" />
-          <!-- <mat-error *ngIf="form.hasError('required',['name'])">Name is required</mat-error>
-          <mat-error *ngIf="form.hasError('minlength',['name'])">Must be atleast 3 characters long</mat-error> -->
-        </mat-form-field>
-        <!-- <mat-form-field style="display:block">
-          <mat-select placeholder="Agent Type" formControlName="type">
-            <mat-option *ngFor="let type of null | utilsRange: 10" [value]="type">
-              Agent Type
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="form.hasError('required',['name'])">Agent Type is required</mat-error>
-        </mat-form-field> -->
-        <br/>
-        <button mat-raised-button color="primary" (submit)="onMessage()">Message</button>
-      </form>
-      <p *ngIf="errorMessage" style="color: red">{{errorMessage}}</p>
-      <div *ngIf="loading" style="margin: 10px">
-        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-      </div>
-    </mat-card>
-  </div>
+  <mat-card fxFlex>
+    <h1>Message</h1>
+    <mat-form-field style="display:block; max-width: 150px">
+      <mat-select placeholder="Performative" [(ngModel)]="model.perform" name="perform">
+        <mat-option *ngFor="let p of data.performatives" [value]="data.performatives.indexOf(p)">
+          {{p}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="model.perform">Performative is required</mat-error>
+    </mat-form-field>
+    <mat-form-field style="display:block; max-width: 150px">
+      <mat-select placeholder="Sender" [(ngModel)]="model.sender" >
+        <mat-option *ngFor="let aid of data.agents" [value]="aid" name="sender">
+          {{aid.type.module}}:{{aid.type.name}}:{{aid.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field style="display:block; max-width: 150px">
+      <mat-select placeholder="Receivers" (selectionChange)="onSelectReceiver($event)">
+        <mat-option *ngFor="let aid of data.agents | notIn: model.receivers" [value]="aid">
+          {{aid.type.module}}:{{aid.type.name}}:{{aid.name}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="model.receivers.length == 0">Receivers required</mat-error>
+    </mat-form-field>
+    <mat-chip-list>
+      <mat-chip *ngFor="let aid of model.receivers">
+        {{aid.type.module}}:{{aid.type.name}}:{{aid.name}}
+        <mat-icon matChipRemove (click)="removeReceiver(aid)">cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-list> 
+    <mat-form-field style="width: 100%">
+      <textarea matInput placeholder="Content" rows="3" style="resize: none" [(ngModel)]="model.content"></textarea>
+    </mat-form-field>
+    <br/>
+    <button mat-raised-button color="primary" (click)="onMessage()">Send</button>
+    <p *ngIf="errorMessage" style="color: red">{{errorMessage}}</p>
+    <div *ngIf="loading" style="margin: 10px">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+  </mat-card>
+</div>

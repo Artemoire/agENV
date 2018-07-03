@@ -17,6 +17,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 
 import com.agenv.beans.EnvBean;
+import com.agenv.event.ApplicationMessenger;
 import com.agenv.model.ACLMessage;
 import com.agenv.model.AID;
 import com.agenv.model.AgentCenter;
@@ -34,9 +35,13 @@ public class MessageServiceImpl implements MessageService {
 
 	@EJB
 	EnvBean envBean;
+	
+	@EJB
+	ApplicationMessenger messenger;
 
 	@Override
 	public void sendACLMessage(ACLMessage acl) {
+		messenger.log(acl.getSender()+" sent "+acl.getPerform()+" to "+acl.getReceivers() + "\nContent: "+acl.getContent()+"\n");
 		ArrayList<AgentCenter> agentCenters = new ArrayList<AgentCenter>();
 		for (int i = 0; i < acl.receivers.size(); ++i) {
 			AID receiver = acl.receivers.get(i);
@@ -48,7 +53,7 @@ public class MessageServiceImpl implements MessageService {
 
 		}
 		for (AgentCenter agentCenter : agentCenters) {
-			ClientBuilder.newClient().target("http://" + agentCenter.getAddress() + "/agents/forward").request().async()
+			ClientBuilder.newClient().target("http://" + agentCenter.getAddress() + "/agENV/rest/agents/forward").request().async()
 					.post(Entity.json(acl));
 		}
 	}
