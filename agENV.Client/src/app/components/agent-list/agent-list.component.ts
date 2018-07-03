@@ -3,6 +3,8 @@ import { DataService } from '../../services/agents/data.service';
 import { MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ConnectionService } from '../../services/websocket/connection.service';
+import { Router } from '@angular/router';
+import { SenderTransferService } from '../../services/sender-transfer.service';
 
 @Component({
   selector: 'app-agent-list',
@@ -16,6 +18,8 @@ export class AgentListComponent implements OnInit {
   selection = new SelectionModel<any>(true, []);
 
   constructor(
+    private router: Router,
+    private receiverTransfer: SenderTransferService,
     public data: DataService
   ) { }
 
@@ -46,6 +50,12 @@ export class AgentListComponent implements OnInit {
     for(let aid of this.selection.selected.slice()) {
       this.data.stopAgent(aid);
     }
+    this.selection.clear();
+  }
+
+  onMessage() {
+    this.receiverTransfer.set(this.selection.selected);
+    this.router.navigateByUrl("/message");
   }
 
 }

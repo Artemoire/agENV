@@ -82,7 +82,7 @@ public class NodeStartup {
 
 	@PreDestroy
 	public void killmepls() {
-		ClientBuilder.newClient().target("http://" + config.masterHost() + "/node/" + mylias).request().async()
+		ClientBuilder.newClient().target("http://" + config.masterHost() + "/agENV/rest/node/" + mylias).request().async()
 				.delete();
 	}
 

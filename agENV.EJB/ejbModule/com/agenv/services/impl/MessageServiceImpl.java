@@ -53,7 +53,7 @@ public class MessageServiceImpl implements MessageService {
 
 		}
 		for (AgentCenter agentCenter : agentCenters) {
-			ClientBuilder.newClient().target("http://" + agentCenter.getAddress() + "/agents/forward").request().async()
+			ClientBuilder.newClient().target("http://" + agentCenter.getAddress() + "/agENV/rest/agents/forward").request().async()
 					.post(Entity.json(acl));
 		}
 	}

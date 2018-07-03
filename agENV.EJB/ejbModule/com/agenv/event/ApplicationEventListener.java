@@ -22,7 +22,7 @@ public class ApplicationEventListener {
 
 	public void listenForLogs(@Observes LogEvent logEvent) {
 		for (Node node : envBean.getNodes())
-			ClientBuilder.newClient().target("http://" + node.getCenter().getAddress() + "/log").request().async()
+			ClientBuilder.newClient().target("http://" + node.getCenter().getAddress() + "/agENV/rest/log").request().async()
 					.post(Entity.json(logEvent.getMessage()));
 		dispatcher.broadcast(MessageType.LOG, logEvent.getMessage());
 	}

@@ -1,7 +1,8 @@
 <div fxFlex fxLayout="column" style="padding: 1em;">
   <h1>Running Agents</h1>
   <span>
-    <button mat-raised-button color="accent" (click)="onDelete()">Delete</button>
+    <button mat-raised-button color="accent" (click)="onMessage()" *ngIf="selection.hasValue()">Message</button>
+    <button mat-raised-button color="accent" (click)="onDelete()" *ngIf="selection.hasValue()">Delete</button>
   </span>
   <table mat-table [dataSource]="data.agents" class="mat-elevation-z8">
 

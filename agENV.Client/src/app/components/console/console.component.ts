@@ -8,7 +8,7 @@ import { ConnectionService } from '../../services/websocket/connection.service';
 })
 export class ConsoleComponent implements OnInit {
 
-  expanded: boolean = false;
+  expanded: boolean = true;
 
   constructor(
     public conn: ConnectionService

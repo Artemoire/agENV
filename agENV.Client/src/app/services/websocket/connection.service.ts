@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { wsEndpoint } from '../../../settings';
 import { Subject, Subscription, PartialObserver } from 'rxjs';
 
 @Injectable({
@@ -28,7 +27,7 @@ export class ConnectionService {
 
   private _connect() {
     this.status = 0;
-    this.ws = new WebSocket(wsEndpoint);
+    this.ws = new WebSocket(`ws://${document.location.hostname}:8080/agENV/ws`);
     this.ws.onopen = this.onOpen.bind(this);
     this.ws.onclose = this.onClose.bind(this);
     this.ws.onmessage = this.onMessage.bind(this);

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/agents/data.service';
-import { MatSelectChange, MatSnackBar } from '@angular/material';
+import { MatSelectChange } from '@angular/material';
+import { SenderTransferService } from '../../services/sender-transfer.service';
 
 @Component({
   selector: 'app-agent-message-form',
@@ -16,11 +17,14 @@ export class AgentMessageFormComponent implements OnInit {
   };
 
   constructor(
-    private snackBar: MatSnackBar,
-    public data: DataService
+    public data: DataService,
+    private receiverTransfer: SenderTransferService
   ) { }
 
   ngOnInit() {
+    var rcvrs = this.receiverTransfer.get();
+    if (rcvrs && rcvrs.length != 0)
+      this.model.receivers = rcvrs;
   }
 
   onMessage() {
@@ -38,17 +42,13 @@ export class AgentMessageFormComponent implements OnInit {
     if (typeof (this.model.content) == 'undefined')
       this.model.content = '';
 
-      console.log(this.model);
-    this.data.postMessage(this.model).subscribe(x=>{
-      this.snackBar.open('Message sent', 'Kewl', {duration: 1400});
-      this.model = {
-        receivers: []
-      };  
+    this.data.postMessage(this.model).subscribe(x => {
+      this.model.content = '';
     });
   }
 
   onSelectReceiver(ev: MatSelectChange) {
-    this.model.receivers.push(ev.value);    
+    this.model.receivers.push(ev.value);
   }
 
   removeReceiver(aid: any) {

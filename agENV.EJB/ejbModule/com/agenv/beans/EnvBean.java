@@ -115,7 +115,7 @@ public class EnvBean {
 	public boolean removeLocalAgent(Agent agent) {
 		boolean removed = localAgents.remove(agent) && agents.remove(agent.getAgentId());
 		if (removed) {
-			messenger.log("Agent " + agent.getAgentId().toString() + " started");
+			messenger.log("Agent " + agent.getAgentId().toString() + " stopped");
 			messenger.fireAgentsChanged();
 		} else {
 			messenger.log("Failed to stop agent " + agent.getAgentId().toString());

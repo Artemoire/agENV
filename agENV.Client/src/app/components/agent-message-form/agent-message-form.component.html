@@ -1,7 +1,7 @@
 <div fxFlex fxLayout fxLayoutAlign="center center" style="padding: 1em">
-  <mat-card>
+  <mat-card fxFlex>
     <h1>Message</h1>
-    <mat-form-field style="display:block">
+    <mat-form-field style="display:block; max-width: 150px">
       <mat-select placeholder="Performative" [(ngModel)]="model.perform" name="perform">
         <mat-option *ngFor="let p of data.performatives" [value]="data.performatives.indexOf(p)">
           {{p}}
@@ -9,14 +9,14 @@
       </mat-select>
       <mat-error *ngIf="model.perform">Performative is required</mat-error>
     </mat-form-field>
-    <mat-form-field style="display:block">
+    <mat-form-field style="display:block; max-width: 150px">
       <mat-select placeholder="Sender" [(ngModel)]="model.sender" >
         <mat-option *ngFor="let aid of data.agents" [value]="aid" name="sender">
           {{aid.type.module}}:{{aid.type.name}}:{{aid.name}}
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field style="display:block; max-width: 150px">
       <mat-select placeholder="Receivers" (selectionChange)="onSelectReceiver($event)">
         <mat-option *ngFor="let aid of data.agents | notIn: model.receivers" [value]="aid">
           {{aid.type.module}}:{{aid.type.name}}:{{aid.name}}

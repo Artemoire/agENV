@@ -41,9 +41,9 @@ public class AID implements Serializable {
 		this.type = type;
 	}
 
-	// format: name+center+type
+	// format: name|center|type
 	public static AID parse(String aid) {
-		String[] splits = aid.split("+");
+		String[] splits = aid.split("\\|");
 
 		if (splits.length != 3)
 			throw new RuntimeException("Invalid AID string format");
