@@ -14,4 +14,6 @@ public interface NodeService {
 	void removeNode(String alias);
 
 	void deleteAgent(AID agent);
+
+	Node getNode();
 }

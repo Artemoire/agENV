@@ -74,4 +74,9 @@ public class NodeServiceImpl implements NodeService {
 		}
 	}
 
+	@Override
+	public Node getNode() {
+		return envBean.getLocalNode();
+	}
+
 }
