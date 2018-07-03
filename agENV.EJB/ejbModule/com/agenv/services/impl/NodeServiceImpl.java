@@ -59,4 +59,13 @@ public class NodeServiceImpl implements NodeService {
 		}
 	}
 
+	@Override
+	public void deleteAgent(Agent agent) {
+		if (handshakeSlaveService.handshook() || nodeConfig.isMaster()) {
+			envBean.removeLocalAgent(agent);
+		} else {
+			
+		}
+	}
+
 }
