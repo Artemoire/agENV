@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
@@ -14,6 +15,7 @@ import javax.enterprise.inject.spi.CDI;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.ws.rs.client.ClientBuilder;
 
 import com.agenv.beans.EnvBean;
 import com.agenv.model.AID;
@@ -37,6 +39,8 @@ public class NodeStartup {
 	@EJB
 	private EnvBean envBean;
 
+	private String mylias;
+
 	@PostConstruct
 	void init() throws IOException, NamingException {
 		config.init();
@@ -46,8 +50,8 @@ public class NodeStartup {
 		List<AgentType> agentTypes = new ArrayList<AgentType>();
 
 		Context ctx = new InitialContext();
-		
-		while (beanterator.hasNext()) {			
+
+		while (beanterator.hasNext()) {
 			Class<?> agentClass = beanterator.next().getBeanClass();
 			String module = "agENV";
 			if (agentClass.isAnnotationPresent(Module.class))
@@ -57,9 +61,9 @@ public class NodeStartup {
 
 			agentTypes.add(new AgentType(agentClass.getName(), module));
 		}
-		
-		ctx.close();
 
+		ctx.close();
+		mylias = config.nodeAlias();
 		Node node = new Node(new AgentCenter(config.nodeAlias(), config.nodeHost()), agentTypes);
 
 		if (!config.isMaster()) {
@@ -74,6 +78,12 @@ public class NodeStartup {
 			envBean.init(node, nodes, new ArrayList<AID>());
 		}
 
+	}
+
+	@PreDestroy
+	public void killmepls() {
+		ClientBuilder.newClient().target("http://" + config.masterHost() + "/node/" + mylias).request().async()
+				.delete();
 	}
 
 }

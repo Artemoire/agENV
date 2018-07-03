@@ -13,10 +13,12 @@ public class MessageDispatcher {
 
 	@EJB
 	private WSSessionsBean wsSessionsBean;
-	
+
 	public void broadcast(MessageType type, Object body) {
+		if (type == MessageType.LOG)
+			System.out.println("Logger: >> " + body);
 		String data = type.ordinal() + "|" + new Gson().toJson(body);
-		wsSessionsBean.stream().forEach(ses->{
+		wsSessionsBean.stream().forEach(ses -> {
 			try {
 				ses.getBasicRemote().sendText(data);
 			} catch (IOException e) {

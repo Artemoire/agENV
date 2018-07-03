@@ -3,7 +3,11 @@ package com.agenv.event;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.enterprise.event.Observes;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 
+import com.agenv.beans.EnvBean;
+import com.agenv.model.Node;
 import com.agenv.websocket.MessageDispatcher;
 import com.agenv.websocket.MessageType;
 
@@ -11,10 +15,15 @@ import com.agenv.websocket.MessageType;
 public class ApplicationEventListener {
 
 	@EJB
+	private EnvBean envBean;
+
+	@EJB
 	private MessageDispatcher dispatcher;
 
 	public void listenForLogs(@Observes LogEvent logEvent) {
-		System.out.println("EJB >> LogEvent: " + logEvent);
+		for (Node node : envBean.getNodes())
+			ClientBuilder.newClient().target("http://" + node.getCenter().getAddress() + "/log").request().async()
+					.post(Entity.json(logEvent.getMessage()));
 		dispatcher.broadcast(MessageType.LOG, logEvent.getMessage());
 	}
 

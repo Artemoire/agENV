@@ -85,10 +85,13 @@ public class EnvBean {
 	}
 
 	public boolean addNewLocalAgent(Agent agent) {
-		if (localAgents.contains(agent) || agents.contains(agent.getAgentId()))
+		if (localAgents.contains(agent) || agents.contains(agent.getAgentId())) {
+			messenger.log("Agent " + agent.getAgentId().toString() + " already exists!");
 			return false;
+		}
 		localAgents.add(agent);
 		agents.add(agent.getAgentId());
+		messenger.log("Agent " + agent.getAgentId().toString() + " started");
 		messenger.fireAgentsChanged();
 		return true;
 	}
@@ -108,11 +111,15 @@ public class EnvBean {
 			messenger.fireAgentsChanged();
 		return removed;
 	}
-	
+
 	public boolean removeLocalAgent(Agent agent) {
 		boolean removed = localAgents.remove(agent) && agents.remove(agent.getAgentId());
-		if (removed)
+		if (removed) {
+			messenger.log("Agent " + agent.getAgentId().toString() + " started");
 			messenger.fireAgentsChanged();
+		} else {
+			messenger.log("Failed to stop agent " + agent.getAgentId().toString());
+		}
 		return removed;
 	}
 

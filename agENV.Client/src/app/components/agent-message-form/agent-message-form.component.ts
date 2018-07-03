@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DataService } from '../../services/agents/data.service';
+import { MatSelectChange, MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-agent-message-form',
@@ -8,21 +9,50 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class AgentMessageFormComponent implements OnInit {
 
-  form: FormGroup;
   loading: boolean = false;
   errorMessage: string;
+  model: any = {
+    receivers: []
+  };
 
   constructor(
-    private fb: FormBuilder,
+    private snackBar: MatSnackBar,
+    public data: DataService
   ) { }
 
   ngOnInit() {
-    this.form = this.fb.group({    
-    });
   }
 
   onMessage() {
-    console.log("kul");
+    this.errorMessage = undefined;
+
+    if (this.model.receivers.length == 0)
+      this.errorMessage = "Receivers can't be empty";
+
+    if (typeof (this.model.perform) == 'undefined')
+      this.errorMessage = "Performative must not be empty";
+
+    if (this.errorMessage)
+      return;
+
+    if (typeof (this.model.content) == 'undefined')
+      this.model.content = '';
+
+      console.log(this.model);
+    this.data.postMessage(this.model).subscribe(x=>{
+      this.snackBar.open('Message sent', 'Kewl', {duration: 1400});
+      this.model = {
+        receivers: []
+      };  
+    });
+  }
+
+  onSelectReceiver(ev: MatSelectChange) {
+    this.model.receivers.push(ev.value);    
+  }
+
+  removeReceiver(aid: any) {
+    this.model.receivers.splice(this.model.receivers.indexOf(aid), 1);
   }
 
 }

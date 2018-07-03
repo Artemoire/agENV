@@ -1,6 +1,8 @@
 package com.agenv.model;
 
-public class AgentCenter {
+import java.io.Serializable;
+
+public class AgentCenter implements Serializable {
 
 	private String alias;
 
@@ -42,7 +44,7 @@ public class AgentCenter {
 	public boolean equals(Object obj) {
 		if (!(obj instanceof AgentCenter))
 			return false;
-		AgentCenter agentCenter = (AgentCenter)obj;
+		AgentCenter agentCenter = (AgentCenter) obj;
 		return agentCenter.address.equals(address) && agentCenter.alias.equals(alias);
 	}
 
