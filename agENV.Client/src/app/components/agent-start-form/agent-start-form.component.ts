@@ -26,7 +26,9 @@ export class AgentStartFormComponent implements OnInit {
   }
 
   onStart() {
-    console.log("kul");
+    if (this.form.valid) {
+      this.data.startAgent(this.form.value);
+    }
   }
 
 }

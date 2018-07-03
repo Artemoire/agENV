@@ -34,14 +34,15 @@ public class NodeServiceImpl implements NodeService {
 		if (nodeConfig.isMaster()) {
 			if (nodes.size() != 1)
 				return; // No need to do anything here
-
 			handshakeMasterService.registerNode(nodes.get(0));
+			// TODO: Refresh front types
 		} else {
 			if (handshakeSlaveService.handshook()) {
 				if (nodes.size() != 1)
 					return; // Nothing here iether
 
 				envBean.newNodeRegistered(nodes.get(0));
+				// TODO: Refresh front types
 			} else {
 				handshakeSlaveService.receiveNodes(nodes);
 			}
@@ -53,10 +54,16 @@ public class NodeServiceImpl implements NodeService {
 		if (handshakeSlaveService.handshook() || nodeConfig.isMaster()) {
 			if (agents.size() != 1)
 				return; // nothing to do here
+			// TODO: Refresh front agents
 			envBean.addNewAgent(agents.get(0));
 		} else {
 			handshakeSlaveService.receiveAgents(agents);
 		}
+	}
+
+	@Override
+	public void removeNode(String alias) {
+		envBean.removeNodeByAlias(alias);		
 	}
 
 }

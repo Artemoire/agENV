@@ -8,6 +8,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -33,6 +34,12 @@ public class NodeSyncController {
 	@POST
 	public void addNodes(List<Node> nodes) {
 		clusterService.addNodes(nodes);
+	}
+	
+	@Path("/node/{alias}")
+	@POST
+	public void deleteNode(@PathParam("alias") String alias) {
+		clusterService.removeNode(alias);
 	}
 	
 

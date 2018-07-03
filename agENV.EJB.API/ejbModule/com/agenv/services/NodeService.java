@@ -9,4 +9,5 @@ public interface NodeService {
 
 	void addNodes(List<Node> nodes);
 	void addAgents(List<AID> agents);
+	void removeNode(String alias);
 }

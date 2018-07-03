@@ -14,6 +14,8 @@ export class ConnectionService {
   status: number = 0; // 0 = connecting, 1 = connected, 2 = fail
 
   logSubject = new Subject<string>();
+  agentsChangedSubject = new Subject<any>();
+  agentTypesChangedSubject = new Subject<any>();
 
   constructor() { }
 
@@ -53,10 +55,10 @@ export class ConnectionService {
           this.logSubject.next(JSON.parse(data.substring(idx + 1)));
           break;
         case MessageType.REFRESH_RUNNING:
-
+          this.agentsChangedSubject.next(null);
           break;
         case MessageType.REFRESH_TYPES:
-
+          this.agentTypesChangedSubject.next(null);
           break;
 
         default:

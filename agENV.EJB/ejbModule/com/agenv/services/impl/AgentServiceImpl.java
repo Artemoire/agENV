@@ -43,7 +43,9 @@ public class AgentServiceImpl implements AgentService {
 		if (node == envBean.getLocalNode()) {
 			try {
 				Context ctx = new InitialContext();
-				Class<?> clazz = (Class<?>) ctx.lookup("java:global/" + agentType.getName());
+				Class<?> clazz = (Class<?>) ctx
+						.lookup("java:global/" + agentType.getModule() + "/" + agentType.getName());
+				ctx.close();
 				Agent agent = (Agent) clazz.newInstance();
 				AID aid = new AID(name, node.getCenter(), agentType);
 				agent.init(aid);

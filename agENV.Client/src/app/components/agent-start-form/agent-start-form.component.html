@@ -1,7 +1,7 @@
 <div fxFlex fxLayout fxLayoutAlign="center center" style="padding: 1em">
   <mat-card>
     <h1>Start</h1>
-    <form [formGroup]="form">
+    <form [formGroup]="form" (ngSubmit)="onStart()">
       <mat-form-field style="display:block">
         <input matInput placeholder="Name" formControlName="name" />
         <mat-error *ngIf="form.hasError('required',['name'])">Name is required</mat-error>
@@ -9,14 +9,14 @@
       </mat-form-field>
       <mat-form-field style="display:block">
         <mat-select placeholder="Agent Type" formControlName="type">
-          <mat-option *ngFor="let type of data.types" [value]="type">
-            {{type.name}}
+          <mat-option *ngFor="let type of data.agentTypes" [value]="type">
+            {{type.module}}:{{type.name}}
           </mat-option>
         </mat-select>
         <mat-error *ngIf="form.hasError('required',['name'])">Agent Type is required</mat-error>
       </mat-form-field>
       <br/>
-      <button mat-raised-button color="primary" (submit)="onStart()">Start</button>
+      <button type="submit" mat-raised-button color="primary">Start</button>
     </form>
     <p *ngIf="errorMessage" style="color: red">{{errorMessage}}</p>
     <div *ngIf="loading" style="margin: 10px">

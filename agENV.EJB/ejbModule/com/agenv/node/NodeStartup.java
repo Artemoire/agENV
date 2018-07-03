@@ -11,12 +11,16 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.CDI;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 import com.agenv.beans.EnvBean;
 import com.agenv.model.AID;
 import com.agenv.model.Agent;
 import com.agenv.model.AgentCenter;
 import com.agenv.model.AgentType;
+import com.agenv.model.Module;
 import com.agenv.model.Node;
 import com.agenv.services.HandshakeSlaveService;
 
@@ -34,15 +38,27 @@ public class NodeStartup {
 	private EnvBean envBean;
 
 	@PostConstruct
-	void init() throws IOException {
+	void init() throws IOException, NamingException {
 		config.init();
 
 		Iterator<Bean<?>> beanterator = CDI.current().getBeanManager().getBeans(Agent.class).iterator();
 
 		List<AgentType> agentTypes = new ArrayList<AgentType>();
 
-		while (beanterator.hasNext())
-			agentTypes.add(new AgentType(beanterator.next().getBeanClass().getName(), null));
+		Context ctx = new InitialContext();
+		
+		while (beanterator.hasNext()) {			
+			Class<?> agentClass = beanterator.next().getBeanClass();
+			String module = "agENV";
+			if (agentClass.isAnnotationPresent(Module.class))
+				module = agentClass.getAnnotation(Module.class).value();
+
+			ctx.bind("java:global/" + module + "/" + agentClass.getName(), agentClass);
+
+			agentTypes.add(new AgentType(agentClass.getName(), module));
+		}
+		
+		ctx.close();
 
 		Node node = new Node(new AgentCenter(config.nodeAlias(), config.nodeHost()), agentTypes);
 

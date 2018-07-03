@@ -3,8 +3,10 @@ package com.agenv.beans;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Singleton;
 
+import com.agenv.event.ApplicationMessenger;
 import com.agenv.model.AID;
 import com.agenv.model.Agent;
 import com.agenv.model.AgentType;
@@ -13,6 +15,9 @@ import com.agenv.model.Node;
 @Singleton
 public class EnvBean {
 
+	@EJB
+	private ApplicationMessenger messenger;
+	
 	private List<Node> nodes;
 	private List<AgentType> agentTypes;
 	private List<AID> agents;
@@ -62,6 +67,9 @@ public class EnvBean {
 	}
 
 	public Node findNodeByAgentType(AgentType type) {
+		if (localNode.getAgentTypes().contains(type))
+			return localNode;
+		
 		for (Node node : nodes) {
 			if (node.getAgentTypes().contains(type)) {
 				return node;
@@ -82,19 +90,37 @@ public class EnvBean {
 			}
 		}
 		agents.add(agent);
+		messenger.fireAgentsChanged();
 		return true;
 
 	}
 
 	private void generateTypes() {
+		int oldSize = agentTypes.size();
 		agentTypes.clear();
+		agentTypes.addAll(localNode.getAgentTypes());
 		for (Node n : nodes)
 			for (AgentType at : n.getAgentTypes())
 				if (!agentTypes.contains(at))
 					agentTypes.add(at);
+		if (agentTypes.size() != oldSize)
+			messenger.fireAgentTypesChanged();
 	}
 
 	public void addNewLocalAgent(Agent agent) {
+	}
+
+	public void removeNodeByAlias(String alias) {
+		Node toRemove = null;
+		
+		for(Node n: nodes)
+			if(n.getCenter().getAlias().equals(alias))
+				toRemove = n;
+		
+		if (toRemove != null) {
+			nodes.remove(toRemove);
+			generateTypes();
+		}
 	}
 
 }

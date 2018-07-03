@@ -39,7 +39,7 @@ public class AgentType {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof AgentCenter))
+		if (!(obj instanceof AgentType))
 			return false;
 		AgentType agentType = (AgentType) obj;
 		return agentType.name.equals(name) && agentType.module.equals(module);
