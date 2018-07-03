@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -34,11 +35,18 @@ public class NodeSyncController {
 	public void addNodes(List<Node> nodes) {
 		clusterService.addNodes(nodes);
 	}
+	
 
 	@Path("/agents/running")
 	@POST
 	public void addAgents(List<AID> agents) {
 		clusterService.addAgents(agents);
+	}
+	
+	@Path("/agents/running")
+	@DELETE
+	public void stopAgent(AID agent) {
+		
 	}
 
 	@Path("/agents/forward")
