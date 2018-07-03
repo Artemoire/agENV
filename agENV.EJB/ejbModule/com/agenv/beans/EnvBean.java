@@ -107,7 +107,24 @@ public class EnvBean {
 			messenger.fireAgentTypesChanged();
 	}
 
-	public void addNewLocalAgent(Agent agent) {
+	public boolean addNewLocalAgent(Agent agent) {
+		for (Agent a : localAgents) {
+			if (a.getAgentId().equals(agent.getAgentId())) {
+				return false;
+			}
+		}
+		localAgents.add(agent);
+		return true;
+	}
+
+	public boolean removeLocalAgent(Agent agent) {
+		for (int i = 0; i < localAgents.size(); i++) {
+			if (localAgents.get(i).getAgentId().equals(agent.getAgentId())) {
+				localAgents.remove(localAgents.get(i));
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void removeNodeByAlias(String alias) {

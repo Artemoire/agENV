@@ -7,6 +7,8 @@ import javax.ejb.Stateless;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 
 import com.agenv.beans.EnvBean;
 import com.agenv.model.AID;
@@ -50,7 +52,8 @@ public class AgentServiceImpl implements AgentService {
 				AID aid = new AID(name, node.getCenter(), agentType);
 				agent.init(aid);
 				envBean.addNewLocalAgent(agent);
-
+				ClientBuilder.newClient().target("http://" + node.getCenter().getAddress() + "/agents/running")
+						.request().post(Entity.json(envBean.getAgents()));
 			} catch (NamingException e) {
 				e.printStackTrace();
 			} catch (InstantiationException e) {
@@ -59,14 +62,25 @@ public class AgentServiceImpl implements AgentService {
 				e.printStackTrace();
 			}
 		} else {
-			// ClientBuilder.newClient().target("node.get...").request().put()
+			ClientBuilder.newClient()
+					.target("http://" + node.getCenter().getAddress() + "/agents/running/{type}/{name}")
+					.resolveTemplate("type", type).resolveTemplate("name", name).request().put(null);
 		}
 	}
 
 	@Override
 	public void stopAgent(String aid) {
-		// TODO Auto-generated method stub
+		Agent agent = envBean.findAgentByAID(AID.parse(aid));
+		Node node = envBean.findNodeByAgentType(AID.parse(aid).getType());
 
+		if (node == envBean.getLocalNode()) {
+			//envBean.removeLocalAgent(agent);
+			ClientBuilder.newClient().target("http://" + node.getCenter().getAddress() + "/agents/running/delete").request()
+					.post(Entity.json(agent));
+		} else {
+			ClientBuilder.newClient().target("http://" + node.getCenter().getAddress() + "/agents/running/{aid}")
+					.resolveTemplate("aid", aid).request().delete();
+		}
 	}
 
 }

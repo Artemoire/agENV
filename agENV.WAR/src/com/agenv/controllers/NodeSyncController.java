@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.agenv.model.ACLMessage;
 import com.agenv.model.AID;
+import com.agenv.model.Agent;
 import com.agenv.model.Node;
 import com.agenv.services.MessageService;
 import com.agenv.services.NodeService;
@@ -59,6 +60,12 @@ public class NodeSyncController {
 	@POST
 	public void forwardACLMessage(ACLMessage acl) {
 		messageService.forwardACLMessages(acl);
+	}
+	
+	@Path("/agents/running/delete")
+	@POST
+	public void deleteAgent(Agent agent) {
+		clusterService.deleteAgent(agent);
 	}
 
 }

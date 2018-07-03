@@ -54,7 +54,7 @@ public class NodeServiceImpl implements NodeService {
 		if (handshakeSlaveService.handshook() || nodeConfig.isMaster()) {
 			if (agents.size() != 1)
 				return; // nothing to do here
-			// TODO: Refresh front agents
+			
 			envBean.addNewAgent(agents.get(0));
 		} else {
 			handshakeSlaveService.receiveAgents(agents);
@@ -63,7 +63,16 @@ public class NodeServiceImpl implements NodeService {
 
 	@Override
 	public void removeNode(String alias) {
-		envBean.removeNodeByAlias(alias);		
+		envBean.removeNodeByAlias(alias);	
+	}
+	
+	@Override
+	public void deleteAgent(Agent agent) {
+		if (handshakeSlaveService.handshook() || nodeConfig.isMaster()) {
+			envBean.removeLocalAgent(agent);
+		} else {
+			
+		}
 	}
 
 }
