@@ -39,6 +39,8 @@ public class HandshakeSlaveService {
 		if (step != Step.Start)
 			throw new RuntimeException("HANDSHAKE ERR: NOT STARTED (TODO: DOMAIN EXCP)");
 
+		System.out.println("Starting handshake...");
+		
 		this.localNode = localNode;
 
 		List<Node> payload = new ArrayList<>();
@@ -54,7 +56,9 @@ public class HandshakeSlaveService {
 	public void receiveNodes(List<Node> nodes) {
 		if (step != Step.Registered)
 			throw new RuntimeException("HANDSHAKE ERR: NOT REGISTERED (TODO: DOMAIN EXCP)");
-
+		
+		System.out.println("Handshake received nodes...");
+		
 		this.nodes = nodes;
 		step = Step.ReceivedNodes;
 	}
@@ -63,6 +67,9 @@ public class HandshakeSlaveService {
 		if (step != Step.ReceivedNodes)
 			throw new RuntimeException("HANDSHAKE ERR: NOT RECEIVED NODES (TODO: DOMAIN EXCP)");
 
+		System.out.println("Handshake received running agents...");
+		System.out.println("Handshake finished!");
+		
 		envBean.init(localNode, nodes, agents);
 		this.localNode = null;
 		this.nodes = null;

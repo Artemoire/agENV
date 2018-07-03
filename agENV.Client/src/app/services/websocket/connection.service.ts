@@ -20,6 +20,7 @@ export class ConnectionService {
   constructor() { }
 
   public connect() {
+    console.log("Connecting...");
     if (this.ws)
       return;
     this._connect();
@@ -35,6 +36,7 @@ export class ConnectionService {
   }
 
   onOpen(e: MessageEvent) {
+    console.log("Connected!");
     this.status = 1;
   }
 

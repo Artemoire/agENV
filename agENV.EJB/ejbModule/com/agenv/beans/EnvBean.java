@@ -34,6 +34,7 @@ public class EnvBean {
 		this.localNode = localNode;
 		this.loaded = true;
 		this.agentTypes = new ArrayList<AgentType>();
+		this.localAgents = new ArrayList<Agent>();
 		generateTypes();
 	}
 
