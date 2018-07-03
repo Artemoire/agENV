@@ -7,7 +7,6 @@ import javax.ejb.Stateless;
 
 import com.agenv.beans.EnvBean;
 import com.agenv.model.AID;
-import com.agenv.model.Agent;
 import com.agenv.model.Node;
 import com.agenv.node.NodeConfig;
 import com.agenv.services.HandshakeMasterService;
@@ -54,7 +53,7 @@ public class NodeServiceImpl implements NodeService {
 		if (handshakeSlaveService.handshook() || nodeConfig.isMaster()) {
 			if (agents.size() != 1)
 				return; // nothing to do here
-			
+
 			envBean.addNewAgent(agents.get(0));
 		} else {
 			handshakeSlaveService.receiveAgents(agents);
@@ -63,15 +62,15 @@ public class NodeServiceImpl implements NodeService {
 
 	@Override
 	public void removeNode(String alias) {
-		envBean.removeNodeByAlias(alias);	
+		envBean.removeNodeByAlias(alias);
 	}
-	
+
 	@Override
-	public void deleteAgent(Agent agent) {
+	public void deleteAgent(AID agent) {
 		if (handshakeSlaveService.handshook() || nodeConfig.isMaster()) {
-			envBean.removeLocalAgent(agent);
+			envBean.removeAgent(agent);
 		} else {
-			
+
 		}
 	}
 

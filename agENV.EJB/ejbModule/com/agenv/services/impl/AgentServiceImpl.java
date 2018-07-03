@@ -1,5 +1,6 @@
 package com.agenv.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -52,8 +53,13 @@ public class AgentServiceImpl implements AgentService {
 				AID aid = new AID(name, node.getCenter(), agentType);
 				agent.init(aid);
 				envBean.addNewLocalAgent(agent);
-				ClientBuilder.newClient().target("http://" + node.getCenter().getAddress() + "/agents/running")
-						.request().post(Entity.json(envBean.getAgents()));
+				List<AID> aids = new ArrayList<AID>();
+				aids.add(aid);
+				for (Node noddy : envBean.getNodes()) {
+					ClientBuilder.newClient().target("http://" + noddy.getCenter().getAddress() + "/agents/running")
+							.request().async().post(Entity.json(aids));
+				}
+
 			} catch (NamingException e) {
 				e.printStackTrace();
 			} catch (InstantiationException e) {
@@ -64,7 +70,7 @@ public class AgentServiceImpl implements AgentService {
 		} else {
 			ClientBuilder.newClient()
 					.target("http://" + node.getCenter().getAddress() + "/agents/running/{type}/{name}")
-					.resolveTemplate("type", type).resolveTemplate("name", name).request().put(null);
+					.resolveTemplate("type", type).resolveTemplate("name", name).request().async().put(null);
 		}
 	}
 
@@ -74,9 +80,11 @@ public class AgentServiceImpl implements AgentService {
 		Node node = envBean.findNodeByAgentType(AID.parse(aid).getType());
 
 		if (node == envBean.getLocalNode()) {
-			//envBean.removeLocalAgent(agent);
-			ClientBuilder.newClient().target("http://" + node.getCenter().getAddress() + "/agents/running/delete").request()
-					.post(Entity.json(agent));
+			envBean.removeLocalAgent(agent);
+			for (Node noddy : envBean.getNodes()) {
+				ClientBuilder.newClient().target("http://" + noddy.getCenter().getAddress() + "/agents/running/delete")
+						.request().async().post(Entity.json(agent.getAgentId()));
+			}
 		} else {
 			ClientBuilder.newClient().target("http://" + node.getCenter().getAddress() + "/agents/running/{aid}")
 					.resolveTemplate("aid", aid).request().delete();

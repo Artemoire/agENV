@@ -54,6 +54,6 @@ public class AID {
 		if (!(obj instanceof AID))
 			return false;
 		AID aid = (AID)obj;
-		return aid.name.equals(name) && aid.host.equals(host) && aid.type.equals(type);
+		return aid.name.equals(name) && aid.type.equals(type);
 	}
 }

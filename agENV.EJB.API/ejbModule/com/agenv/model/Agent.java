@@ -2,14 +2,12 @@ package com.agenv.model;
 
 import java.io.Serializable;
 
-import com.agenv.model.AID;
+public abstract class Agent implements Serializable {
 
-public abstract class Agent implements Serializable{
-	
 	private AID agentId;
 
 	public Agent() {
-		
+
 	}
 
 	public Agent(AID agentId) {
@@ -30,6 +28,13 @@ public abstract class Agent implements Serializable{
 	public void init(AID aid) {
 		agentId = aid;
 	}
-	
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Agent))
+			return false;
+		
+		return ((Agent)obj).agentId.equals(agentId);
+	}
+
 }

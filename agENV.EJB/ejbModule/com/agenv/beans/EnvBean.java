@@ -17,7 +17,7 @@ public class EnvBean {
 
 	@EJB
 	private ApplicationMessenger messenger;
-	
+
 	private List<Node> nodes;
 	private List<AgentType> agentTypes;
 	private List<AID> agents;
@@ -69,7 +69,7 @@ public class EnvBean {
 	public Node findNodeByAgentType(AgentType type) {
 		if (localNode.getAgentTypes().contains(type))
 			return localNode;
-		
+
 		for (Node node : nodes) {
 			if (node.getAgentTypes().contains(type)) {
 				return node;
@@ -83,16 +83,36 @@ public class EnvBean {
 		generateTypes();
 	}
 
+	public boolean addNewLocalAgent(Agent agent) {
+		if (localAgents.contains(agent) || agents.contains(agent.getAgentId()))
+			return false;
+		localAgents.add(agent);
+		agents.add(agent.getAgentId());
+		messenger.fireAgentsChanged();
+		return true;
+	}
+
 	public boolean addNewAgent(AID agent) {
-		for (AID a : agents) {
-			if (agent.getName().equals(a.getName())) {
-				return false;
-			}
-		}
+		if (agents.contains(agent))
+			return false;
 		agents.add(agent);
 		messenger.fireAgentsChanged();
 		return true;
 
+	}
+
+	public boolean removeAgent(AID aid) {
+		boolean removed = agents.remove(aid);
+		if (removed)
+			messenger.fireAgentsChanged();
+		return removed;
+	}
+	
+	public boolean removeLocalAgent(Agent agent) {
+		boolean removed = localAgents.remove(agent) && agents.remove(agent.getAgentId());
+		if (removed)
+			messenger.fireAgentsChanged();
+		return removed;
 	}
 
 	private void generateTypes() {
@@ -107,33 +127,13 @@ public class EnvBean {
 			messenger.fireAgentTypesChanged();
 	}
 
-	public boolean addNewLocalAgent(Agent agent) {
-		for (Agent a : localAgents) {
-			if (a.getAgentId().equals(agent.getAgentId())) {
-				return false;
-			}
-		}
-		localAgents.add(agent);
-		return true;
-	}
-
-	public boolean removeLocalAgent(Agent agent) {
-		for (int i = 0; i < localAgents.size(); i++) {
-			if (localAgents.get(i).getAgentId().equals(agent.getAgentId())) {
-				localAgents.remove(localAgents.get(i));
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public void removeNodeByAlias(String alias) {
 		Node toRemove = null;
-		
-		for(Node n: nodes)
-			if(n.getCenter().getAlias().equals(alias))
+
+		for (Node n : nodes)
+			if (n.getCenter().getAlias().equals(alias))
 				toRemove = n;
-		
+
 		if (toRemove != null) {
 			nodes.remove(toRemove);
 			generateTypes();

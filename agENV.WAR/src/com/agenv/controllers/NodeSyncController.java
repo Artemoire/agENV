@@ -5,7 +5,6 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -14,7 +13,6 @@ import javax.ws.rs.core.MediaType;
 
 import com.agenv.model.ACLMessage;
 import com.agenv.model.AID;
-import com.agenv.model.Agent;
 import com.agenv.model.Node;
 import com.agenv.services.MessageService;
 import com.agenv.services.NodeService;
@@ -36,24 +34,17 @@ public class NodeSyncController {
 	public void addNodes(List<Node> nodes) {
 		clusterService.addNodes(nodes);
 	}
-	
+
 	@Path("/node/{alias}")
 	@POST
 	public void deleteNode(@PathParam("alias") String alias) {
 		clusterService.removeNode(alias);
 	}
-	
 
 	@Path("/agents/running")
 	@POST
 	public void addAgents(List<AID> agents) {
 		clusterService.addAgents(agents);
-	}
-	
-	@Path("/agents/running")
-	@DELETE
-	public void stopAgent(AID agent) {
-		
 	}
 
 	@Path("/agents/forward")
@@ -61,10 +52,10 @@ public class NodeSyncController {
 	public void forwardACLMessage(ACLMessage acl) {
 		messageService.forwardACLMessages(acl);
 	}
-	
+
 	@Path("/agents/running/delete")
 	@POST
-	public void deleteAgent(Agent agent) {
+	public void deleteAgent(AID agent) {
 		clusterService.deleteAgent(agent);
 	}
 
