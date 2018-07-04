@@ -72,9 +72,15 @@ public class AgentServiceImpl implements AgentService {
 				e.printStackTrace();
 			}
 		} else {
-			ClientBuilder.newClient()
-					.target("http://" + node.getCenter().getAddress() + "/agENV/rest/agents/running/{type}/{name}")
-					.resolveTemplate("type", type).resolveTemplate("name", name).request().async().put(null);
+		
+			try {
+				ClientBuilder.newClient()
+						.target("http://" + node.getCenter().getAddress() + "/agENV/rest/agents/running/{type}/{name}")
+						.resolveTemplate("type",  URLEncoder.encode(type, "UTF-8")).resolveTemplate("name",  URLEncoder.encode(name, "UTF-8")).request().async().put(null);
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
