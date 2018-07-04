@@ -28,30 +28,33 @@ public class HandshakeMasterService {
 		boolean abort = false;
 
 		System.out.println("Notifying other nodes of new node...");
-		
+
 		// Step 1: Notify nodes of new node
 		for (int i = 1; i < envBean.getNodes().size(); ++i) {
 			Node myNode = envBean.getNodes().get(i);
-			ClientBuilder.newClient().target("http://" + myNode.getCenter().getAddress() + "/agENV/rest/node").request().async()
-					.post(Entity.json(payload));
+			ClientBuilder.newClient().target("http://" + myNode.getCenter().getAddress() + "/agENV/rest/node").request()
+					.async().post(Entity.json(payload));
 		}
-		
+
 		System.out.println("Sending other nodes to new node...");
 
+		List<Node> nodesAndLocal = envBean.getNodes().subList(0, envBean.getNodes().size());
+		nodesAndLocal.add(0, envBean.getLocalNode());
+
 		// Step 2: send nodes to new node
-		if (!sendNodes(node))
-			if (!sendNodes(node)) {
+		if (!sendNodes(node, nodesAndLocal))
+			if (!sendNodes(node, nodesAndLocal)) {
 				abort = true;
 				rollback(node);
 			}
-		
+
 		System.out.println("Sent!");
 
 		if (abort)
 			return;
 
 		System.out.println("Sending running aids to new node...");
-		
+
 		// Step 3: send running agents to new node
 		if (!sendMyAgents(node))
 			if (!sendMyAgents(node)) {
@@ -61,7 +64,7 @@ public class HandshakeMasterService {
 
 		if (abort)
 			return;
-		
+
 		System.out.println("Sent!");
 
 		// Step 4: Add node to myself
@@ -69,15 +72,16 @@ public class HandshakeMasterService {
 		System.out.println("New node finished handshake");
 	}
 
-	private boolean sendNodes(Node node) {
-		Response r = ClientBuilder.newClient().target("http://" + node.getCenter().getAddress() + "/agENV/rest/node").request()
-				.post(Entity.json(envBean.getNodes()));
+	private boolean sendNodes(Node node, List<Node> nodes) {
+		Response r = ClientBuilder.newClient().target("http://" + node.getCenter().getAddress() + "/agENV/rest/node")
+				.request().post(Entity.json(nodes));
 		return r.getStatus() == 204;
 	}
 
 	private boolean sendMyAgents(Node node) {
-		Response r = ClientBuilder.newClient().target("http://" + node.getCenter().getAddress() + "/agENV/rest/agents/running")
-				.request().post(Entity.json(envBean.getAgents()));
+		Response r = ClientBuilder.newClient()
+				.target("http://" + node.getCenter().getAddress() + "/agENV/rest/agents/running").request()
+				.post(Entity.json(envBean.getAgents()));
 		return r.getStatus() == 204;
 	}
 
@@ -89,8 +93,8 @@ public class HandshakeMasterService {
 
 		for (int i = 1; i < envBean.getNodes().size(); ++i) {
 			Node myNode = envBean.getNodes().get(i);
-			ClientBuilder.newClient()
-					.target("http://" + myNode.getCenter().getAddress() + "/agENV/rest/node/" + node.getCenter().getAlias())
+			ClientBuilder.newClient().target(
+					"http://" + myNode.getCenter().getAddress() + "/agENV/rest/node/" + node.getCenter().getAlias())
 					.request().async().delete();
 		}
 	}
