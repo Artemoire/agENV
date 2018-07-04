@@ -40,6 +40,13 @@ public class AgentServiceImpl implements AgentService {
 	@Override
 	public void startAgent(String type, String name) {
 
+		try {
+			type = URLDecoder.decode(type, "UTF-8");
+			name = URLDecoder.decode(name, "UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+
 		AgentType agentType = AgentType.parse(type);
 		Node node = envBean.findNodeByAgentType(agentType);
 
@@ -84,7 +91,6 @@ public class AgentServiceImpl implements AgentService {
 		try {
 			aid = URLDecoder.decode(aid, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -102,7 +108,6 @@ public class AgentServiceImpl implements AgentService {
 						.target("http://" + AID.parse(aid).getHost().getAddress() + "/agENV/rest/agents/running/{aid}")
 						.resolveTemplate("aid", URLEncoder.encode(aid, "UTF-8")).request().delete();
 			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
