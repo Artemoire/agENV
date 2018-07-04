@@ -56,8 +56,9 @@ public class AgentServiceImpl implements AgentService {
 				List<AID> aids = new ArrayList<AID>();
 				aids.add(aid);
 				for (Node noddy : envBean.getNodes()) {
-					ClientBuilder.newClient().target("http://" + noddy.getCenter().getAddress() + "/agENV/rest/agents/running")
-							.request().async().post(Entity.json(aids));
+					ClientBuilder.newClient()
+							.target("http://" + noddy.getCenter().getAddress() + "/agENV/rest/agents/running").request()
+							.async().post(Entity.json(aids));
 				}
 
 			} catch (NamingException e) {
@@ -76,17 +77,17 @@ public class AgentServiceImpl implements AgentService {
 
 	@Override
 	public void stopAgent(String aid) {
-		Agent agent = envBean.findAgentByAID(AID.parse(aid));
-		Node node = envBean.findNodeByAgentType(AID.parse(aid).getType());
-
-		if (node == envBean.getLocalNode()) {
+		if (AID.parse(aid).getHost().equals(envBean.getLocalNode().getCenter())) {
+			Agent agent = envBean.findAgentByAID(AID.parse(aid));
 			envBean.removeLocalAgent(agent);
 			for (Node noddy : envBean.getNodes()) {
-				ClientBuilder.newClient().target("http://" + noddy.getCenter().getAddress() + "/agENV/rest/agents/running/delete")
+				ClientBuilder.newClient()
+						.target("http://" + noddy.getCenter().getAddress() + "/agENV/rest/agents/running/delete")
 						.request().async().post(Entity.json(agent.getAgentId()));
 			}
 		} else {
-			ClientBuilder.newClient().target("http://" + node.getCenter().getAddress() + "/agENV/rest/agents/running/{aid}")
+			ClientBuilder.newClient()
+					.target("http://" + AID.parse(aid).getHost().getAddress() + "/agENV/rest/agents/running/{aid}")
 					.resolveTemplate("aid", aid).request().delete();
 		}
 	}

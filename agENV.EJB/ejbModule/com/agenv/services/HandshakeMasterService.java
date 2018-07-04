@@ -10,7 +10,6 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 
 import com.agenv.beans.EnvBean;
-import com.agenv.event.ApplicationMessengerImpl;
 import com.agenv.model.Node;
 
 @Stateless
@@ -36,10 +35,11 @@ public class HandshakeMasterService {
 					.async().post(Entity.json(payload));
 		}
 
-		System.out.println("Sending other nodes to new node...");
-
-		List<Node> nodesAndLocal = envBean.getNodes().subList(0, envBean.getNodes().size());
+		List<Node> nodesAndLocal = new ArrayList<>(envBean.getNodes().size() + 1);
 		nodesAndLocal.add(0, envBean.getLocalNode());
+		nodesAndLocal.addAll(envBean.getNodes());
+
+		System.out.println("Sending " + nodesAndLocal.size() + " nodes to new node...");
 
 		// Step 2: send nodes to new node
 		if (!sendNodes(node, nodesAndLocal))
@@ -53,7 +53,7 @@ public class HandshakeMasterService {
 		if (abort)
 			return;
 
-		System.out.println("Sending running aids to new node...");
+		System.out.println("Sending " + envBean.getAgents().size() + " running aids to new node...");
 
 		// Step 3: send running agents to new node
 		if (!sendMyAgents(node))
