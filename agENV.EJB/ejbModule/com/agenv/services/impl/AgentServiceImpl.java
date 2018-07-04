@@ -1,6 +1,7 @@
 package com.agenv.services.impl;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +80,14 @@ public class AgentServiceImpl implements AgentService {
 
 	@Override
 	public void stopAgent(String aid) {
+
+		try {
+			aid = URLDecoder.decode(aid, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		if (AID.parse(aid).getHost().equals(envBean.getLocalNode().getCenter())) {
 			Agent agent = envBean.findAgentByAID(AID.parse(aid));
 			envBean.removeLocalAgent(agent);
@@ -90,8 +99,8 @@ public class AgentServiceImpl implements AgentService {
 		} else {
 			try {
 				ClientBuilder.newClient()
-				.target("http://" + AID.parse(aid).getHost().getAddress() + "/agENV/rest/agents/running/{aid}")
-				.resolveTemplate("aid", URLEncoder.encode(aid, "UTF-8")).request().delete();
+						.target("http://" + AID.parse(aid).getHost().getAddress() + "/agENV/rest/agents/running/{aid}")
+						.resolveTemplate("aid", URLEncoder.encode(aid, "UTF-8")).request().delete();
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
