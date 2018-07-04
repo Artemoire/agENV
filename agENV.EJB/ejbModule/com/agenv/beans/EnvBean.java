@@ -3,7 +3,11 @@ package com.agenv.beans;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.ConcurrencyManagement;
+import javax.ejb.ConcurrencyManagementType;
 import javax.ejb.EJB;
+import javax.ejb.Lock;
+import javax.ejb.LockType;
 import javax.ejb.Singleton;
 
 import com.agenv.event.ApplicationMessenger;
@@ -12,6 +16,7 @@ import com.agenv.model.Agent;
 import com.agenv.model.AgentType;
 import com.agenv.model.Node;
 
+@ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
 @Singleton
 public class EnvBean {
 
@@ -38,26 +43,32 @@ public class EnvBean {
 		generateTypes();
 	}
 
+	@Lock(LockType.READ)
 	public List<AgentType> getAgentTypes() {
 		return agentTypes;
 	}
 
+	@Lock(LockType.READ)
 	public List<AID> getAgents() {
 		return agents;
 	}
 
+	@Lock(LockType.READ)
 	public List<Agent> getLocalAgents() {
 		return localAgents;
 	}
 
+	@Lock(LockType.READ)
 	public List<Node> getNodes() {
 		return nodes;
 	}
 
+	@Lock(LockType.READ)
 	public Node getLocalNode() {
 		return localNode;
 	}
 
+	@Lock(LockType.READ)
 	public Agent findAgentByAID(AID aid) {
 		for (Agent agent : localAgents)
 			if (agent.getAgentId().equals(aid))
@@ -65,6 +76,7 @@ public class EnvBean {
 		return null;
 	}
 
+	@Lock(LockType.READ)
 	public Node findNodeByAgentType(AgentType type) {
 		if (localNode.getAgentTypes().contains(type))
 			return localNode;
@@ -77,11 +89,13 @@ public class EnvBean {
 		return null;
 	}
 
+	@Lock(LockType.WRITE)
 	public void newNodeRegistered(Node node) {
 		nodes.add(node);
 		generateTypes();
 	}
 
+	@Lock(LockType.WRITE)
 	public boolean addNewLocalAgent(Agent agent) {
 		if (localAgents.contains(agent) || agents.contains(agent.getAgentId())) {
 			messenger.log("Agent " + agent.getAgentId().toString() + " already exists!");
@@ -94,6 +108,7 @@ public class EnvBean {
 		return true;
 	}
 
+	@Lock(LockType.WRITE)
 	public boolean addNewAgent(AID agent) {
 		if (agents.contains(agent))
 			return false;
@@ -103,6 +118,7 @@ public class EnvBean {
 
 	}
 
+	@Lock(LockType.WRITE)
 	public boolean removeAgent(AID aid) {
 		boolean removed = agents.remove(aid);
 		if (removed)
@@ -110,6 +126,7 @@ public class EnvBean {
 		return removed;
 	}
 
+	@Lock(LockType.WRITE)
 	public boolean removeLocalAgent(Agent agent) {
 		boolean removed = localAgents.remove(agent) && agents.remove(agent.getAgentId());
 		if (removed) {
@@ -121,6 +138,7 @@ public class EnvBean {
 		return removed;
 	}
 
+	@Lock(LockType.WRITE)
 	private void generateTypes() {
 		int oldSize = agentTypes.size();
 		agentTypes.clear();
@@ -133,6 +151,7 @@ public class EnvBean {
 			messenger.fireAgentTypesChanged();
 	}
 
+	@Lock(LockType.WRITE)
 	public void removeNodeByAlias(String alias) {
 		Node toRemove = null;
 
@@ -147,6 +166,7 @@ public class EnvBean {
 		}
 	}
 
+	@Lock(LockType.WRITE)
 	private void deleteAgentsByNodeAlias(String alias) {
 		List<AID> keepAgents = new ArrayList<AID>();
 		for (AID aid : agents) {
