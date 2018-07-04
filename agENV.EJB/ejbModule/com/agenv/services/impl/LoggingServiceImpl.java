@@ -3,18 +3,19 @@ package com.agenv.services.impl;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import com.agenv.event.ApplicationMessenger;
 import com.agenv.services.LoggingService;
+import com.agenv.websocket.MessageDispatcher;
+import com.agenv.websocket.MessageType;
 
 @Stateless
 public class LoggingServiceImpl implements LoggingService {
 
 	@EJB
-	private ApplicationMessenger messenger;
+	private MessageDispatcher dispatcher;
 
 	@Override
 	public void log(String content) {
-		messenger.log(content);
+		dispatcher.broadcast(MessageType.LOG, content);
 	}
 
 }
