@@ -47,7 +47,7 @@ export class DataService {
   }
 
   public stopAgent(aid: any) {
-    this.http.delete<any>(`http://${document.location.hostname}:8080/agENV/rest/agents/running/${aid.name}%7C${aid.host.address}%3B${aid.host.alias}%7C${aid.type.name}%3B${aid.type.module}`).subscribe(x => { });
+    this.http.delete<any>(`http://${document.location.hostname}:8080/agENV/rest/agents/running/${aid.name}%7C${aid.host.alias}%3B${aid.host.address}%7C${aid.type.name}%3B${aid.type.module}`).subscribe(x => { });
   }
 
   public postMessage(acl: any):Observable<any> {
