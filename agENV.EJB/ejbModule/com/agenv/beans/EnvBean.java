@@ -58,8 +58,6 @@ public class EnvBean {
 		return localNode;
 	}
 
-	// findNodeByAgentCenter
-
 	public Agent findAgentByAID(AID aid) {
 		for (Agent agent : localAgents)
 			if (agent.getAgentId().equals(aid))
@@ -143,8 +141,22 @@ public class EnvBean {
 				toRemove = n;
 
 		if (toRemove != null) {
+			deleteAgentsByNodeAlias(alias);
 			nodes.remove(toRemove);
 			generateTypes();
+		}
+	}
+
+	private void deleteAgentsByNodeAlias(String alias) {
+		List<AID> keepAgents = new ArrayList<AID>();
+		for (AID aid : agents) {
+			if (!aid.getHost().getAlias().equals(alias)) {
+				keepAgents.add(aid);
+			}
+		}
+		if (keepAgents.size() != agents.size()) {
+			agents = keepAgents;
+			messenger.fireAgentsChanged();
 		}
 	}
 

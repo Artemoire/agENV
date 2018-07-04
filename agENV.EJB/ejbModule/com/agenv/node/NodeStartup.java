@@ -18,7 +18,6 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 
 import com.agenv.beans.EnvBean;
@@ -44,6 +43,8 @@ public class NodeStartup {
 	private EnvBean envBean;
 
 	private String mylias;
+	private String masterHost;
+	private boolean master;
 
 	@PostConstruct
 	void init() throws IOException, NamingException {
@@ -68,6 +69,8 @@ public class NodeStartup {
 
 		ctx.close();
 		mylias = config.nodeAlias();
+		masterHost = config.masterHost();
+		master = config.isMaster();
 		Node node = new Node(new AgentCenter(config.nodeAlias(), config.nodeHost()), agentTypes);
 
 		if (!config.isMaster()) {
@@ -86,14 +89,13 @@ public class NodeStartup {
 
 	@Schedules({ @Schedule(hour = "*", minute = "*", second = "*/60"), })
 	public void checkHeartbeats() {
-
+		if (!config.isMaster())
+			return;
 		try {
-			Node node = envBean.getLocalNode();
-			for (Node noddy : envBean.getNodes()) {
-				if (!noddy.getCenter().getAddress().equals(node.getCenter().getAddress())) {
-					checkNoddy(noddy);
-				}
+			for (Node node : envBean.getNodes()) {
+				checkNoddy(node);
 			}
+
 		} catch (Exception e) {
 			System.out.println("Noddy is dead :(!");
 			e.printStackTrace();
@@ -107,24 +109,26 @@ public class NodeStartup {
 		if (checked == null) {
 			checked = heartbeat(noddy);
 			if (checked == null) {
-			    deleteNode(noddy);
+				deleteNoddy(noddy);
 			}
 		}
 		System.out.println("Noddy is alive");
 
 	}
 
-	public void deleteNode(Node noddy) {
-		ClientBuilder.newClient().target("http://" + noddy.getCenter().getAddress() + "/agents/running/delete")
-				.request().async().post(Entity.json(noddy.getCenter().getAlias()));
+	private void deleteNoddy(Node checked) {
+		envBean.removeNodeByAlias(checked.getCenter().getAlias());
+		for (Node node : envBean.getNodes()) {
+			ClientBuilder.newClient().target(
+					"http://" + node.getCenter().getAddress() + "/agENV/rest/node/" + checked.getCenter().getAlias())
+					.request().async().delete();
+		}
 	}
 
 	public Node heartbeat(Node node) {
-
 		try {
-			return ClientBuilder.newClient().target("http://" + node.getCenter().getAddress() + ":8080/node/")
+			return ClientBuilder.newClient().target("http://" + node.getCenter().getAddress() + "/agENV/rest/node/")
 					.request(MediaType.APPLICATION_JSON).get().readEntity(Node.class);
-
 		} catch (Exception e) {
 			System.out.println("Can't find center with IP: " + node.getCenter().getAddress() + " and alias: "
 					+ node.getCenter().getAlias());
@@ -134,8 +138,9 @@ public class NodeStartup {
 
 	@PreDestroy
 	public void killmepls() {
-		ClientBuilder.newClient().target("http://" + config.masterHost() + "/agENV/rest/node/" + mylias).request().async()
-				.delete();
+		if (!master)
+			ClientBuilder.newClient().target("http://" + masterHost + "/agENV/rest/node/" + mylias).request().async()
+					.delete();
 	}
 
 }

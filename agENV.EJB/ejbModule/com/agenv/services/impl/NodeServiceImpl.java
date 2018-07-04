@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ws.rs.client.ClientBuilder;
 
 import com.agenv.beans.EnvBean;
 import com.agenv.model.AID;
@@ -62,6 +63,12 @@ public class NodeServiceImpl implements NodeService {
 
 	@Override
 	public void removeNode(String alias) {
+		if (nodeConfig.isMaster())
+			for (Node node : envBean.getNodes())
+				ClientBuilder.newClient()
+						.target("http://" + node.getCenter().getAddress() + "/agENV/rest/node/" + alias).request()
+						.async().delete();
+
 		envBean.removeNodeByAlias(alias);
 	}
 
