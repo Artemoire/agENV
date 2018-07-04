@@ -1,5 +1,7 @@
 package com.agenv.services.impl;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,9 +88,14 @@ public class AgentServiceImpl implements AgentService {
 						.request().async().post(Entity.json(agent.getAgentId()));
 			}
 		} else {
-			ClientBuilder.newClient()
-					.target("http://" + AID.parse(aid).getHost().getAddress() + "/agENV/rest/agents/running/{aid}")
-					.resolveTemplate("aid", aid).request().delete();
+			try {
+				ClientBuilder.newClient()
+				.target("http://" + AID.parse(aid).getHost().getAddress() + "/agENV/rest/agents/running/{aid}")
+				.resolveTemplate("aid", URLEncoder.encode(aid, "UTF-8")).request().delete();
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
